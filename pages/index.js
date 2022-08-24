@@ -3,10 +3,16 @@ import Header from '../components/Header'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
 
 export default function Home() {
   const { data: session, status } = useSession()
   const loading = status === "loading"
+
+  useEffect(() => {
+    console.log("I logged in")
+  }, [session])
+  console.log('Session hereeeee', session)
 
   return (
     <div className={styles.container}>
