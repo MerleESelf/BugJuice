@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth'
 import GitHubProvider from "next-auth/providers/github";
-import GoogleProvider from 'next-auth/providers/google';
+// import GoogleProvider from 'next-auth/providers/google';
 import SequelizeAdapter from "@next-auth/sequelize-adapter"
 import db from '../../../db';
 
@@ -11,10 +11,10 @@ const options = {
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-    })
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_ID,
+    //   clientSecret: process.env.GOOGLE_SECRET,
+    // })
   ],
   adapter: SequelizeAdapter(db),
   database: process.env.DATABASE,
