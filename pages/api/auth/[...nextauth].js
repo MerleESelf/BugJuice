@@ -16,4 +16,11 @@ const options = {
   database: process.env.DATABASE,
 }
 
-export default (req, res) => NextAuth(req, res, options)
+export default (req, res) => {
+  try {
+    return NextAuth(req, res, options)
+    
+  } catch (error) {
+    console.log('error: ', error)
+  }
+}
