@@ -8,6 +8,9 @@ export const AuthUserContextProvider = ({ children }) => {
   const router = useRouter();
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
+  const [isNewUser, setIsNewUser] = useState(false);
+
+  const [isFetchingUser, setIsFetchingUser] = useState(false);
 
   useEffect(() => {
     setSession(supabaseClient.auth.session());
@@ -20,6 +23,7 @@ export const AuthUserContextProvider = ({ children }) => {
   useEffect(() => {
     async function fetchUser() {
       try {
+        setIsFetchingUser(true);
         const body = {
           user: session?.user,
         };
@@ -28,8 +32,17 @@ export const AuthUserContextProvider = ({ children }) => {
           body: JSON.stringify(body),
           headers: { "Content-Type": "application/json" },
         });
+
+        const [user, isNewUser] = await response.json();
+
+        setUser(user);
+        if (isNewUser) {
+          setIsNewUser(true);
+        }
+        setIsFetchingUser(false);
       } catch (error) {
         console.log("FETCH USER ERROR: ", error);
+        setIsFetchingUser(false);
       }
     }
 
@@ -41,10 +54,15 @@ export const AuthUserContextProvider = ({ children }) => {
   const logOut = async () => {
     try {
       const { error } = await supabaseClient.auth.signOut();
-      console.log("A DIFFERENT SIGNOUT ERROR: ", error);
+      setUser(null);
+      setSession(null);
     } catch (error) {
       console.log("ERROR SIGNING OUT: ", error);
     }
+  };
+
+  const Loading = () => {
+    return <div>Loading...</div>;
   };
 
   // they landed on the /, and they are logged in?
@@ -55,10 +73,11 @@ export const AuthUserContextProvider = ({ children }) => {
     setSession,
     user,
     setUser,
+    isNewUser,
   };
   return (
     <AuthUserContext.Provider value={contextValue}>
-      {children}
+      {isFetchingUser ? <Loading /> : children}
     </AuthUserContext.Provider>
   );
 };

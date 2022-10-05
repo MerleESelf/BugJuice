@@ -4,8 +4,7 @@ import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  // TODO: when we hook up the user db, change session to user
-  const { session, logOut } = useAuthUserContext();
+  const { user, logOut, isNewUser } = useAuthUserContext();
 
   return (
     <div className={styles.container}>
@@ -20,8 +19,10 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Bug Juice</h1>
-        {session ? (
+        {user ? (
           <div style={{ display: "flex", flexDirection: "column" }}>
+            <div>{isNewUser ? "WELCOME TO CAMP" : "WELCOME BACK, CAMPER"}</div>
+            <div>{user.name}</div>
             <Link href="/my-todos">
               <button className="logo">MY TODOS</button>
             </Link>
