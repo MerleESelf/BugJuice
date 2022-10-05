@@ -1,14 +1,14 @@
-import { supabase } from "../../lib/supabase";
+import { supabaseClient } from "../../lib/supabase";
 
 export default function GithubSignIn() {
   async function handleOAuthLogin() {
-    let { error } = await supabase.auth.signIn({
+    let { error } = await supabaseClient.auth.signIn({
       provider: "github",
     });
     if (error) console.log("Error: ", error.message);
   }
   async function handleOAuthLogout() {
-    let { error } = await supabase.auth.signOut();
+    let { error } = await supabaseClient.auth.signOut();
     if (error) console.log("Error: ", error.message);
   }
 
