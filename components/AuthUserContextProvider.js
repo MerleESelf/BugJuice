@@ -11,9 +11,7 @@ export const AuthUserContextProvider = ({ children }) => {
 
   useEffect(() => {
     setSession(supabaseClient.auth.session());
-    setUser(supabaseClient.auth.session() || null);
     supabaseClient.auth.onAuthStateChange((_event, session) => {
-      console.log("_event: ", _event);
       setSession(session);
     });
   }, [router]);
@@ -22,8 +20,14 @@ export const AuthUserContextProvider = ({ children }) => {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const response = await fetch("/api/users");
-        console.log("response: ", response);
+        const body = {
+          user: session?.user,
+        };
+        const response = await fetch("/api/users", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: { "Content-Type": "application/json" },
+        });
       } catch (error) {
         console.log("FETCH USER ERROR: ", error);
       }
