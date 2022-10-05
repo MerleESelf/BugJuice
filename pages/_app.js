@@ -1,13 +1,11 @@
-import '../styles/globals.css'
-import { UserProvider } from '@supabase/auth-helpers-react'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { useEffect } from "react";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <UserProvider supabaseClient={supabaseClient}>
-      <Component {...pageProps} />
-    </UserProvider>
-  )
-} 1
+  useEffect(() => {
+    console.log("Were back in the app");
+  }, []);
+  return <Component {...pageProps} />;
+}
 
-export default MyApp
+export default MyApp;
