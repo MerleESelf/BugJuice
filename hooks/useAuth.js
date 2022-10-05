@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { supabaseClient } from "../lib/supabase";
+import { useAuthUserContext } from "../components/AuthUserContextProvider";
 
 export const useAuth = () => {
+  const { user } = useAuthUserContext();
   const router = useRouter();
-  const user = supabaseClient.auth.user();
   useEffect(() => {
     if (!user) {
       router.push("/login");
