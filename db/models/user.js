@@ -1,6 +1,5 @@
-const db = require("../")
-const { DataTypes } = require('sequelize')
-
+import { db } from "../db";
+import { DataTypes } from "sequelize";
 
 export const User = db.define("User", {
   name: {
@@ -10,5 +9,5 @@ export const User = db.define("User", {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-  }
-})
+  },
+});

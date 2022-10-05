@@ -7,12 +7,14 @@ import { supabaseClient } from "../lib/supabase";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [session, setSession] = useState(null);
-  console.log({ session });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     setSession(supabaseClient.auth.session());
     supabaseClient.auth.onAuthStateChange((_event, session) => {
       if (_event === "SIGNED_IN") {
+        const user = supabaseClient.auth.user();
+        setUser(user);
         router.push("/my-todos");
       }
       setSession(session);
