@@ -1,4 +1,4 @@
-import { GithubSignIn } from "../components/auth/GithubSignIn";
+import { GithubSignIn } from "../components/GithubSignIn";
 
 const containerStyles = {
   width: "100%",

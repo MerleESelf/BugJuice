@@ -1,9 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
-import GithubSignIn from "../components/auth/GithubSignIn";
+import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  // TODO: when we hook up the user db, change session to user
+  const { session, logOut } = useAuthUserContext();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -17,9 +20,20 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Bug Juice</h1>
-        <Link href="/login">
-          <a className="logo">LOGIN</a>
-        </Link>
+        {session ? (
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <Link href="/my-todos">
+              <button className="logo">MY TODOS</button>
+            </Link>
+            <button className="logo" onClick={logOut}>
+              Sign Out
+            </button>
+          </div>
+        ) : (
+          <Link href="/login">
+            <button className="logo">LOGIN</button>
+          </Link>
+        )}
       </main>
     </div>
   );

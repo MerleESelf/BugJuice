@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { supabaseClient } from "../../lib/supabase";
+import { supabaseClient } from "../lib/supabase";
 
 export const GithubSignIn = () => {
   const router = useRouter();
