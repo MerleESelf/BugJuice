@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import Auth from "../components/auth/GithubSignIn";
+import GithubSignIn from "../components/auth/GithubSignIn";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -17,11 +17,9 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Bug Juice</h1>
-        <Link href="/">
-          <a className="logo">BUG JUICE</a>
+        <Link href="/login">
+          <a className="logo">LOGIN</a>
         </Link>
-
-        <Auth />
       </main>
     </div>
   );

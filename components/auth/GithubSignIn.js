@@ -1,6 +1,6 @@
 import { supabaseClient } from "../../lib/supabase";
 
-export default function GithubSignIn() {
+export const GithubSignIn = () => {
   async function handleOAuthLogin() {
     let { error } = await supabaseClient.auth.signIn({
       provider: "github",
@@ -24,4 +24,4 @@ export default function GithubSignIn() {
       <button onClick={handleOAuthLogout}>Sign Out</button>
     </div>
   );
-}
+};
