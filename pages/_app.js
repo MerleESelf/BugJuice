@@ -1,11 +1,12 @@
-import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
+import { UserProvider } from '@supabase/auth-helpers-react'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <SessionProvider session={pageProps.session}>
+    <UserProvider supabaseClient={supabaseClient}>
       <Component {...pageProps} />
-    </SessionProvider>
+    </UserProvider>
   )
 } 1
 

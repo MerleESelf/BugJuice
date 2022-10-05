@@ -1,18 +1,13 @@
 import Head from 'next/head'
-import Header from '../components/Header'
+import Auth from '../components/Auth'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 
 export default function Home() {
-  const { data: session, status } = useSession()
-  const loading = status === "loading"
 
-  useEffect(() => {
-    console.log("I logged in")
-  }, [session])
-  console.log('Session hereeeee', session)
+
+
 
   return (
     <div className={styles.container}>
@@ -22,25 +17,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
-
       <main className={styles.main}>
+
         <h1 className={styles.title}>
           Bug Juice
         </h1>
 
-        <div className={styles.user}>
-          {loading && <div className={styles.title}>Loading...</div>}
-          {session && <> <p style={{ marginBottom: '10px' }}> Welcome, {session.user.name ?? session.user.email}</p> <br />
-            <img src={session.user.image} alt="" className={styles.avatar} />
-          </>}
-          {!session &&
-            <>
-              <p className={styles.title}>Please Sign in</p>
-              <img src="https://media.giphy.com/media/wBJbv6JL5u2C4/giphy.gif" alt="" className={styles.avatar} />
-            </>
-          }
-        </div>
+        <Auth />
+
       </main>
 
       <footer className={styles.footer}>
@@ -58,3 +42,6 @@ export default function Home() {
     </div>
   )
 }
+
+
+{/* <img src="https://media.giphy.com/media/wBJbv6JL5u2C4/giphy.gif" alt="" className={styles.avatar} /> */ }
