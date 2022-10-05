@@ -16,7 +16,7 @@ export default async function handler(req, res) {
       const user = await db.models.user.findOrCreate({
         where: userData,
       });
-      console.log("USER: ", user);
+      res.status(200).send(user);
     } catch (error) {
       console.error("Unable to connect to the database:", error);
     }
