@@ -1,3 +1,4 @@
 import { User } from "./user";
+import { ToDo } from "./todo";
 
-export default { User };
+export default { User, ToDo };
