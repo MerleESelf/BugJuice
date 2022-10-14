@@ -1,5 +1,10 @@
 import { useState } from "react"
 
+// gonna make a simple straight forward form at first to add to dos and to test 
+// the post api route for todos once I get that working I'll use dnd kit to finalize the intened UI 
+// going to also just have a simple display for the todos for now to just ge the core function of the get route working 
+
+// want form to have error and loading state, state for the todos returned, and state for the various inputs to control the form
 export const ToDosForm = () => {
 
   // var that will hold context for the current date
@@ -47,31 +52,35 @@ export const ToDosForm = () => {
   // onSubmit function that will post a toDo to the db 
 
   return (
-    <form>
-      <label htmlFor='todoinput'>Todo: </label>
-      <input type='text' id='todoinput' name='todoinput' value={toDoInput} />
-      <br />
-      <label>Due by: </label>
-      <input type='date' id='dueby' name='dueby' min={todaysDate} value={dueByInput} />
-      < br />
-      <label>Status: </label>
-      <select name='status' id='status-select' value={statusInput}>
-        <option value=''> --Task Status-- </option>
-        <option value='Future' >Future</option>
-        <option value='Needs Attention'>Needs Attention</option>
-        <option value='In Progress'>In Progress</option>
-        <option value='Done'>Done</option>
-      </select>
-      <br />
-      <label>Priority: </label>
-      <select name='priority' id='priority-select' value={priorityInput}>
-        <option value=''> --Task Priority-- </option>
-        <option value='High' >High</option>
-        <option value='Moderate'>Moderate</option>
-        <option value='Low'>Low</option>
-      </select>
-      <br />
-      <button type='submit' >Save Task</button>
-    </form>
+    <div>
+      {isLoading ? <p> Saving Your ToDo's </p> : null}
+      {isError ? <p> Something Went Wrong </p> : null}
+      <form>
+        <label htmlFor='todoinput'>Todo: </label>
+        <input type='text' id='todoinput' name='todoinput' value={toDoInput} onChange={handleToDoInputChange} />
+        <br />
+        <label>Due by: </label>
+        <input type='date' id='dueby' name='dueby' min={todaysDate} value={dueByInput} onChange={handleDueByInputChange} />
+        < br />
+        <label>Status: </label>
+        <select name='status' id='status-select' value={statusInput} onChange={handleStatusInputChange}>
+          <option value=''> --Task Status-- </option>
+          <option value='Future' >Future</option>
+          <option value='Needs Attention'>Needs Attention</option>
+          <option value='In Progress'>In Progress</option>
+          <option value='Done'>Done</option>
+        </select>
+        <br />
+        <label>Priority: </label>
+        <select name='priority' id='priority-select' value={priorityInput} onChange={handlePriorityInputChange}>
+          <option value=''> --Task Priority-- </option>
+          <option value='High' >High</option>
+          <option value='Moderate'>Moderate</option>
+          <option value='Low'>Low</option>
+        </select>
+        <br />
+        <button type='submit' >Save Task</button>
+      </form>
+    </div >
   )
 }
