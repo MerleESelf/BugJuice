@@ -1,5 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
-// import { useState, useEffect } from "react"
+import { ToDosForm } from "./ToDosForm";
 //needed for Dnd kit functionality
 // import { Draggable } from './Draggable';
 // import { Droppable } from './Droppable';
@@ -20,46 +20,9 @@ const MyToDos = () => {
 
   // will need state to hold our returned todos 
 
-  // state for the various todo inputs 
-
-  // state for loading : bool 
-
-
-  //state for error: bool 
-
-  // change handler for the input feilds 
-
-  // onSubmit function that will post a toDo to the db 
-
   return (
     <div>
-      <form>
-        <label htmlFor='todoinput'>Todo: </label>
-        <input type='text' id='todoinput' name='todoinput' />
-        <br />
-        <label>Due by: </label>
-        <input type='date' id='dueby' name='dueby' />
-        <br />
-        <label>Status: </label>
-        <select name='status' id='status-select'>
-          <option value=''> --Task Status-- </option>
-          <option value='Future' >Future</option>
-          <option value='Needs Attention'>Needs Attention</option>
-          <option value='In Progress'>In Progress</option>
-          <option value='Done'>Done</option>
-        </select>
-        <br />
-        <label>Priority: </label>
-        <select name='priority' id='priority-select'>
-          <option value=''> --Task Priority-- </option>
-          <option value='High' >High</option>
-          <option value='Moderate'>Moderate</option>
-          <option value='Low'>Low</option>
-        </select>
-        <br />
-        <button type='submit' >Save Task</button>
-
-      </form>
+      <ToDosForm />
     </div>
   )
 };
