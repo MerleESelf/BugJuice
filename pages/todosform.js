@@ -49,7 +49,42 @@ export const ToDosForm = () => {
     event.preventDefault
   }
 
+
+
   // onSubmit function that will post a toDo to the db 
+  const handleSubmit = (event) => {
+    // prevent default 
+    event.preventDefault()
+    // write async function that will leverage fetch to post to db 
+    async function postToDo() {
+      try {
+        const body = {
+          todo: toDoInput,
+          due: dueByInput,
+          status: statusInput,
+          priority: priorityInput
+        };
+        const response = await fetch("/api/todos", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (error) {
+        console.log('Todo Post Error', error)
+        setIsLoading(false)
+      }
+    }
+    // set loading and error states
+    setIsLoading(true)
+    setIsError(false)
+    postToDo()
+    //reset your states 
+    setIsLoading(false)
+    setToDoInput('')
+    setDueByInput('')
+    setStatusInput('')
+    setPriorityInput('')
+  }
 
   return (
     <div>

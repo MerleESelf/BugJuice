@@ -15,7 +15,7 @@ export const ToDo = db.define(
       type: DataTypes.ENUM('Future', 'Needs Attention', 'In Progress', 'Done'),
       allowNull: false
     },
-    Priority: {
+    priority: {
       type: DataTypes.ENUM('High', 'Moderate', 'Low')
     }
   }
