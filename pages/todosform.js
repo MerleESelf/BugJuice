@@ -28,25 +28,25 @@ export const ToDosForm = () => {
   //todo input change 
   const handleToDoInputChange = (event) => {
     setToDoInput(event.target.value)
-    event.preventDefault
+    event.preventDefault()
   }
 
   // dueby inout change 
   const handleDueByInputChange = (event) => {
     setDueByInput(event.target.value)
-    event.preventDefault
+    event.preventDefault()
   }
 
   // status input change 
   const handleStatusInputChange = (event) => {
     setStatusInput(event.target.value)
-    event.preventDefault
+    event.preventDefault()
   }
 
   // priority input change 
   const handlePriorityInputChange = (event) => {
     setPriorityInput(event.target.value)
-    event.preventDefault
+    event.preventDefault()
   }
 
 
@@ -114,7 +114,7 @@ export const ToDosForm = () => {
           <option value='Low'>Low</option>
         </select>
         <br />
-        <button type='submit' >Save Task</button>
+        <button type='submit' onSubmit={handleSubmit} >Save Task</button>
       </form>
     </div >
   )
