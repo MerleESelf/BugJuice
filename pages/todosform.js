@@ -52,32 +52,32 @@ export const ToDosForm = () => {
 
 
   // onSubmit function that will post a toDo to the db 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     // prevent default 
+    console.log('1')
     event.preventDefault()
     // write async function that will leverage fetch to post to db 
-    async function postToDo() {
-      try {
-        const body = {
-          todo: toDoInput,
-          due: dueByInput,
-          status: statusInput,
-          priority: priorityInput
-        };
-        const response = await fetch("/api/todos", {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: { "Content-Type": "application/json" },
-        });
-      } catch (error) {
-        console.log('Todo Post Error', error)
-        setIsLoading(false)
-      }
+    try {
+      const body = {
+        todo: toDoInput,
+        due: dueByInput,
+        status: statusInput,
+        priority: priorityInput
+      };
+      console.log('1')
+      const response = await fetch("/api/todos", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error) {
+      console.log('Todo Post Error', error)
+      setIsLoading(false)
     }
     // set loading and error states
     setIsLoading(true)
     setIsError(false)
-    postToDo()
+    console.log("HEY BITCH !!!!!^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
     //reset your states 
     setIsLoading(false)
     setToDoInput('')
@@ -114,8 +114,8 @@ export const ToDosForm = () => {
           <option value='Low'>Low</option>
         </select>
         <br />
-        <button type='submit' onSubmit={handleSubmit} >Save Task</button>
       </form>
+      <button onClick={handleSubmit} >Save Task</button>
     </div >
   )
 }
