@@ -54,7 +54,7 @@ export const ToDosForm = () => {
   // onSubmit function that will post a toDo to the db 
   const handleSubmit = async (event) => {
     // prevent default 
-    console.log('1')
+
     event.preventDefault()
     // write async function that will leverage fetch to post to db 
     try {
@@ -64,7 +64,7 @@ export const ToDosForm = () => {
         status: statusInput,
         priority: priorityInput
       };
-      console.log('1')
+
       const response = await fetch("/api/todos", {
         method: "POST",
         body: JSON.stringify(body),
@@ -77,7 +77,7 @@ export const ToDosForm = () => {
     // set loading and error states
     setIsLoading(true)
     setIsError(false)
-    console.log("HEY BITCH !!!!!^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
     //reset your states 
     setIsLoading(false)
     setToDoInput('')
