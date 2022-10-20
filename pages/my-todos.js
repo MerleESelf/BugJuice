@@ -49,7 +49,7 @@ const MyToDos = () => {
       {isError ? <p> Something Went Wrong </p> : null}
       <ToDosForm getToDos={getToDos} />
       {todos.map((todo) => {
-        return (<ToDoCard todo={todo} key={todo.id} />)
+        return (<ToDoCard todo={todo} key={todo.id} getToDos={getToDos} />)
       })}
     </div>
   )

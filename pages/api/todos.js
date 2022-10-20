@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     try {
       const todoToDelete = await db.models.todo.findByPk(id)
       await todoToDelete.destroy()
-      res.status(200).send(todo);
+      res.status(200).send(todoToDelete);
     } catch (error) {
       console.error("Unable to connect to the database:", error);
     }
