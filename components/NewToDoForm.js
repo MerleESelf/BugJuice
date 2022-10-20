@@ -5,8 +5,8 @@ import { useState } from "react"
 // going to also just have a simple display for the todos for now to just ge the core function of the get route working 
 
 // want form to have error and loading state, state for the todos returned, and state for the various inputs to control the form
-export const ToDosForm = (props) => {
-  const { getToDos } = props
+export const NewToDoForm = (props) => {
+  const { user, getToDos } = props
 
   // var that will hold context for the current date
   const todaysDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
@@ -19,7 +19,6 @@ export const ToDosForm = (props) => {
 
   // state for loading : bool 
   const [isLoading, setIsLoading] = useState(false)
-
 
   //state for error: bool 
   const [isError, setIsError] = useState(false)
@@ -50,8 +49,6 @@ export const ToDosForm = (props) => {
     event.preventDefault()
   }
 
-
-
   // onSubmit function that will post a toDo to the db 
   const handleSubmit = async (event) => {
     // prevent default 
@@ -66,7 +63,8 @@ export const ToDosForm = (props) => {
         todo: toDoInput,
         due: dueByInput,
         status: statusInput,
-        priority: priorityInput
+        priority: priorityInput,
+        userId: user.id
       };
 
       const response = await fetch("/api/todos", {
@@ -90,36 +88,34 @@ export const ToDosForm = (props) => {
     getToDos()
   }
 
-  return (
-    <div>
-      {isLoading ? <p> Saving Your ToDo's </p> : null}
-      {isError ? <p> Something Went Wrong </p> : null}
-      <form>
-        <label htmlFor='todoinput'>Todo: </label>
-        <input type='text' id='todoinput' name='todoinput' value={toDoInput} onChange={handleToDoInputChange} />
-        <br />
-        <label>Due by: </label>
-        <input type='date' id='dueby' name='dueby' min={todaysDate} value={dueByInput} onChange={handleDueByInputChange} />
-        < br />
-        <label>Status: </label>
-        <select name='status' id='status-select' value={statusInput} onChange={handleStatusInputChange}>
-          <option value=''> --Task Status-- </option>
-          <option value='Future' >Future</option>
-          <option value='Needs Attention'>Needs Attention</option>
-          <option value='In Progress'>In Progress</option>
-          <option value='Done'>Done</option>
-        </select>
-        <br />
-        <label>Priority: </label>
-        <select name='priority' id='priority-select' value={priorityInput} onChange={handlePriorityInputChange}>
-          <option value=''> --Task Priority-- </option>
-          <option value='High' >High</option>
-          <option value='Moderate'>Moderate</option>
-          <option value='Low'>Low</option>
-        </select>
-        <br />
-      </form>
-      <button onClick={handleSubmit} >Save Task</button>
-    </div >
-  )
+  return (<div>
+    {isLoading ? <p> Saving Your ToDo's </p> : null}
+    {isError ? <p> Something Went Wrong </p> : null}
+    <form>
+      <label htmlFor='todoinput'>Todo: </label>
+      <input type='text' id='todoinput' name='todoinput' value={toDoInput} onChange={handleToDoInputChange} />
+      <br />
+      <label>Due by: </label>
+      <input type='date' id='dueby' name='dueby' min={todaysDate} value={dueByInput} onChange={handleDueByInputChange} />
+      < br />
+      <label>Status: </label>
+      <select name='status' id='status-select' value={statusInput} onChange={handleStatusInputChange}>
+        <option value=''> --Task Status-- </option>
+        <option value='Future' >Future</option>
+        <option value='Needs Attention'>Needs Attention</option>
+        <option value='In Progress'>In Progress</option>
+        <option value='Done'>Done</option>
+      </select>
+      <br />
+      <label>Priority: </label>
+      <select name='priority' id='priority-select' value={priorityInput} onChange={handlePriorityInputChange}>
+        <option value=''> --Task Priority-- </option>
+        <option value='High' >High</option>
+        <option value='Moderate'>Moderate</option>
+        <option value='Low'>Low</option>
+      </select>
+      <br />
+    </form>
+    <button onClick={handleSubmit} >Save Task</button>
+  </div >)
 }

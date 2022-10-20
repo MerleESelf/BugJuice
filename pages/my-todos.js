@@ -1,17 +1,13 @@
 import { useAuth } from "../hooks/useAuth";
-import { ToDosForm } from "./ToDosForm";
+import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import { useEffect, useState, useCallback } from "react"
-import { ToDoCard } from "../components/ToDoCard";
-
-
-
-// we get onto this page
-// useAuth didn't redirect use
-// we want to query for data
+import { EditToDosForm } from "../components/EditToDosForm";
+import { NewToDoForm } from "../components/NewToDoForm";
 
 // state for all returned todos, loading state while the useEffect will run, error state 
 const MyToDos = () => {
-  useAuth();
+  useAuth()
+  const { user } = useAuthUserContext();
   // use state for the returned todos from the use effect. Initialzied to null 56
   const [todos, setToDos] = useState([])
 
@@ -42,14 +38,17 @@ const MyToDos = () => {
   }, [getToDos])
 
 
-
   return (
     <div>
       {isLoading ? <p> Fetching Your ToDo's </p> : null}
       {isError ? <p> Something Went Wrong </p> : null}
-      <ToDosForm getToDos={getToDos} />
+      Make A New Task
+      <NewToDoForm getToDos={getToDos} user={user} />
+      <br />
+      Your Tasks
       {todos.map((todo) => {
-        return (<ToDoCard todo={todo} key={todo.id} getToDos={getToDos} />)
+        console.log("in my todos", todo)
+        return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} />)
       })}
     </div>
   )

@@ -3,7 +3,7 @@ import { useState } from "react"
 export const ToDoCard = (props) => {
   const { todo, getToDos } = props
 
-  const { id, todoname, due, priority, status } = todo
+  // const { id, todoname, due, priority, status } = todo
   // state for loading : bool 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -58,9 +58,9 @@ export const ToDoCard = (props) => {
   return (
     <div>
       <p>Task: {todoname}</p>
+      <p>Due By: {due} </p>
       <p>Status: {status}</p>
       <p>Priority: {priority}</p>
-      <p>Due By: {due} </p>
       <button>Edit</button>
       <button onClick={handleDelete}>Delete</button>
     </div>
