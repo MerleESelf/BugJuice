@@ -3,11 +3,13 @@ import { useRouter } from "next/router";
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
 
 export const useAuth = () => {
-  const { user } = useAuthUserContext();
+  const authContext = useAuthUserContext();
   const router = useRouter();
+
+  console.log('auth context: user', authContext)
   useEffect(() => {
-    if (!user) {
+    if (!authContext.user) {
       router.push("/login");
     }
-  }, [router, user]);
+  }, [router, authContext.user]);
 };

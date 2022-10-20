@@ -6,7 +6,7 @@ import { useState } from "react"
 
 // want form to have error and loading state, state for the todos returned, and state for the various inputs to control the form
 export const EditToDosForm = (props) => {
-  const { todo, user, getToDos } = props
+  const { todo, getToDos } = props
   const { id, todoname, due, priority, status } = todo
 
   // var that will hold context for the current date
@@ -14,6 +14,7 @@ export const EditToDosForm = (props) => {
 
   // state for the various todo inputs 
   const [toDoInput, setToDoInput] = useState(todoname ? todoname : '')
+  console.log(toDoInput)
   const [dueByInput, setDueByInput] = useState(due ? due : '')
   const [statusInput, setStatusInput] = useState(status ? status : '')
   const [priorityInput, setPriorityInput] = useState(priority ? priority : '')
@@ -78,11 +79,12 @@ export const EditToDosForm = (props) => {
     try {
       const body = {
         id,
-        todoname,
-        due,
-        status,
-        priority
+        todoname: toDoInput,
+        due: dueByInput,
+        status: statusInput,
+        priorty: priorityInput
       };
+      console.log("Body in Handle EDIT", body)
       const response = await fetch("/api/todos", {
         method: "PUT",
         body: JSON.stringify(body),

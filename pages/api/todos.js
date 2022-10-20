@@ -31,11 +31,13 @@ export default async function handler(req, res) {
 
   if (method === "PUT") {
     const { id } = body
+    console.log("body in API", body)
     try {
       const todoToEdit = await db.models.todo.findByPk(id)
-      console.log("in TODO API", todoToEdit)
+
       await todoToEdit.update(body)
-      await todoToEdit.save()
+      await todoToEdit.reload()
+
       console.log("in TODO API AFTER SAVE ", todoToEdit)
       res.status(200).send(todoToEdit)
     } catch (error) {
