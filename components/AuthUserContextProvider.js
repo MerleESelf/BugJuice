@@ -10,7 +10,9 @@ export const AuthUserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isNewUser, setIsNewUser] = useState(false);
 
-  const [isFetchingUser, setIsFetchingUser] = useState(false);
+  const [isFetchingUser, setIsFetchingUser] = useState(true);
+  console.log('session in AuthContext', session)
+  console.log('user', user)
 
   useEffect(() => {
     setSession(supabaseClient.auth.session());
@@ -19,11 +21,17 @@ export const AuthUserContextProvider = ({ children }) => {
     });
   }, [router]);
 
+  useEffect(() => {
+    if (user) {
+      setIsFetchingUser(false)
+    }
+  }, [user])
+
   // if there's a session, we want to query for they user in our db
   useEffect(() => {
     async function fetchUser() {
       try {
-        setIsFetchingUser(true);
+
         const body = {
           user: session?.user,
         };
@@ -39,7 +47,7 @@ export const AuthUserContextProvider = ({ children }) => {
         if (isNewUser) {
           setIsNewUser(true);
         }
-        setIsFetchingUser(false);
+
       } catch (error) {
         console.log("FETCH USER ERROR: ", error);
         setIsFetchingUser(false);
