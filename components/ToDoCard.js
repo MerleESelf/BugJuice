@@ -1,7 +1,10 @@
 export const ToDoCard = (props) => {
+
   const { todo } = props
 
-  // will list out all the attributes of the to do and have a button for edit and delete
+  // on Click for delete 
+
+  // on click for edit 
   return (
     <div>
       <p>Task:{todo.todoname}</p>

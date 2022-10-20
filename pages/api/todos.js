@@ -1,7 +1,6 @@
 import { db } from "../../db";
 
 export default async function handler(req, res) {
-
   const { method, body } = req;
   if (method === "POST") {
     const { todo, due, status, priority } = body;
@@ -27,20 +26,27 @@ export default async function handler(req, res) {
     }
 
   }
-  // if (method === "PUT") {
-  //   try {
+  if (method === "PUT") {
+    const { id } = body
+    try {
+      const todoToEdit = await db.models.todo.findByPk(id)
+      await todoToEdit.update(body)
+      res.status(200).send(todoToEdit);
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+    }
 
-  //   } catch (error) {
-  //     console.error("Unable to connect to the database:", error);
-  //   }
+  }
+  if (method === "DELETE") {
+    // get id for task off the body and 
+    const { id } = body
+    try {
+      const todoToDelete = await db.models.todo.findByPk(id)
+      await todoToDelete.destroy()
+      res.status(200).send(todo);
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+    }
 
-  // }
-  // if (method === "DELETE") {
-  //   try {
-
-  //   } catch (error) {
-  //     console.error("Unable to connect to the database:", error);
-  //   }
-
-  // }
+  }
 }
