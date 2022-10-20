@@ -5,7 +5,8 @@ import { useState } from "react"
 // going to also just have a simple display for the todos for now to just ge the core function of the get route working 
 
 // want form to have error and loading state, state for the todos returned, and state for the various inputs to control the form
-export const ToDosForm = () => {
+export const ToDosForm = (props) => {
+  const { getToDos } = props
 
   // var that will hold context for the current date
   const todaysDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
@@ -57,6 +58,9 @@ export const ToDosForm = () => {
 
     event.preventDefault()
     // write async function that will leverage fetch to post to db 
+    // set loading and error states
+    setIsLoading(true)
+    setIsError(false)
     try {
       const body = {
         todo: toDoInput,
@@ -72,11 +76,10 @@ export const ToDosForm = () => {
       });
     } catch (error) {
       console.log('Todo Post Error', error)
+      setIsError(true)
       setIsLoading(false)
     }
-    // set loading and error states
-    setIsLoading(true)
-    setIsError(false)
+
 
     //reset your states 
     setIsLoading(false)
@@ -84,6 +87,7 @@ export const ToDosForm = () => {
     setDueByInput('')
     setStatusInput('')
     setPriorityInput('')
+    getToDos()
   }
 
   return (
