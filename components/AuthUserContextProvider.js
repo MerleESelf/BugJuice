@@ -13,13 +13,14 @@ export const AuthUserContextProvider = ({ children }) => {
   const [isFetchingUser, setIsFetchingUser] = useState(true);
   console.log('session in AuthContext', session)
   console.log('user', user)
+  console.log('isfetchinguser value', isFetchingUser)
 
   useEffect(() => {
     setSession(supabaseClient.auth.session());
     supabaseClient.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
-  }, [router]);
+  }, [router, session]);
 
   useEffect(() => {
     if (user) {
@@ -27,11 +28,12 @@ export const AuthUserContextProvider = ({ children }) => {
     }
   }, [user])
 
+
   // if there's a session, we want to query for they user in our db
   useEffect(() => {
     async function fetchUser() {
       try {
-
+        console.log("in fetch user user effect")
         const body = {
           user: session?.user,
         };
@@ -89,6 +91,8 @@ export const AuthUserContextProvider = ({ children }) => {
     </AuthUserContext.Provider>
   );
 };
+
+
 
 // custom sweet hook we can use to access context anywhere within the scope of the context provider
 // we're gonna put this context provider in _App.js

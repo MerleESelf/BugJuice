@@ -42,12 +42,11 @@ const MyToDos = () => {
     <div>
       {isLoading ? <p> Fetching Your ToDo's </p> : null}
       {isError ? <p> Something Went Wrong </p> : null}
-      Make A New Task
+      Make A New Task:
       <NewToDoForm getToDos={getToDos} user={user} />
       <br />
-      Your Tasks
+      Your Tasks:
       {todos.map((todo) => {
-        console.log("in my todos", todo)
         return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} />)
       })}
     </div>

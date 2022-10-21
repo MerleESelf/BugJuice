@@ -1,11 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
+import { useAuth } from "../hooks/useAuth";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const { user, logOut, isNewUser } = useAuthUserContext();
-
+  console.log(user)
   return (
     <div className={styles.container}>
       <Head>

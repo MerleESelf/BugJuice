@@ -14,7 +14,7 @@ export const EditToDosForm = (props) => {
 
   // state for the various todo inputs 
   const [toDoInput, setToDoInput] = useState(todoname ? todoname : '')
-  console.log(toDoInput)
+
   const [dueByInput, setDueByInput] = useState(due ? due : '')
   const [statusInput, setStatusInput] = useState(status ? status : '')
   const [priorityInput, setPriorityInput] = useState(priority ? priority : '')
@@ -75,7 +75,8 @@ export const EditToDosForm = (props) => {
 
   // EDIT
   const handleEdit = async (event) => {
-
+    setIsLoading(true)
+    setIsError(false)
     try {
       const body = {
         id,
@@ -84,7 +85,6 @@ export const EditToDosForm = (props) => {
         status: statusInput,
         priorty: priorityInput
       };
-      console.log("Body in Handle EDIT", body)
       const response = await fetch("/api/todos", {
         method: "PUT",
         body: JSON.stringify(body),
@@ -94,8 +94,10 @@ export const EditToDosForm = (props) => {
       console.log('Todo Put Error', error)
       setIsError(true)
       setIsLoading(false)
-      getToDos()
+
     }
+    setIsLoading(false)
+    getToDos()
     event.preventDefault()
   }
 
