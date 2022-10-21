@@ -8,8 +8,34 @@ import { NewToDoForm } from "../components/NewToDoForm";
 const MyToDos = () => {
   useAuth()
   const { user } = useAuthUserContext();
-  // use state for the returned todos from the use effect. Initialzied to null 56
+  // use state for the returned todos from the use effect. Initialzied to null 
   const [todos, setToDos] = useState([])
+
+  // console.log(user)
+
+  // filtered future tasks 
+  const future = todos.filter((todo) => {
+    console.log(todo.status)
+    return todo.status === 'Future'
+  })
+
+  const needsAttention = todos.filter((todo) => {
+    console.log(todo.status)
+    return todo.status === 'Needs Attention'
+  })
+
+  // filtered in progress tasks 
+  const inProgress = todos.filter((todo) => {
+    console.log(todo.status)
+    return todo.status === 'In Progress'
+  })
+
+  // filtered tasks marked done                      
+  const done = todos.filter((todo) => {
+    console.log(todo.status)
+    return todo.status === 'Done'
+  })
+
 
   // state for loading : bool 
   const [isLoading, setIsLoading] = useState(false)
@@ -42,13 +68,42 @@ const MyToDos = () => {
     <div>
       {isLoading ? <p> Fetching Your ToDo's </p> : null}
       {isError ? <p> Something Went Wrong </p> : null}
-      Make A New Task:
-      <NewToDoForm getToDos={getToDos} user={user} />
-      <br />
-      Your Tasks:
-      {todos.map((todo) => {
-        return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} />)
-      })}
+
+      <h1>{user.name}'s To-do List:</h1>
+
+      <div>
+        <h2>Add a new to-do: </h2>
+        <NewToDoForm getToDos={getToDos} user={user} className="todoForm" />
+      </div>
+
+      <div>
+        <h3>Future: </h3>
+        {future.map((todo) => {
+          return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} className="todoForm" />)
+        })}
+      </div>
+
+      <div>
+        <h3>Needs Attention: </h3>
+        {needsAttention.map((todo) => {
+          return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} className="todoForm" />)
+        })}
+      </div>
+
+      <div>
+        <h3>In Progress: </h3>
+        {inProgress.map((todo) => {
+          return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} className="todoForm" />)
+        })}
+      </div>
+
+      <div>
+        <h3>Done: </h3>
+        {done.map((todo) => {
+          return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} className="todoForm" />)
+        })}
+      </div>
+
     </div>
   )
 };

@@ -102,7 +102,7 @@ export const EditToDosForm = (props) => {
   }
 
   return (
-    <div>
+    <div className="edittodoform">
       {isLoading ? <p> Saving Your ToDo's </p> : null}
       {isError ? <p> Something Went Wrong </p> : null}
       <form>
@@ -130,8 +130,8 @@ export const EditToDosForm = (props) => {
         </select>
         <br />
       </form>
-      <button onClick={handleEdit}>Edit Task</button>
-      <button onClick={handleDelete}> Delete </button>
+      <button onClick={handleEdit} className="formbutton">Edit Task</button>
+      <button onClick={handleDelete} className="formbutton"> Delete </button>
     </div >
   )
 }

@@ -24,8 +24,17 @@ a {
   html {
     color-scheme: dark;
   }
+
   body {
     color: white;
     background: black;
   }
+}
+
+.edittodoform {
+  margin: 15px;
+}
+
+.formbutton {
+  margin: 5px;
 }

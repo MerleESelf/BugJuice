@@ -11,13 +11,23 @@ export const AuthUserContextProvider = ({ children }) => {
   const [isNewUser, setIsNewUser] = useState(false);
 
   const [isFetchingUser, setIsFetchingUser] = useState(true);
-  console.log('session in AuthContext', session)
-  console.log('user', user)
-  console.log('isfetchinguser value', isFetchingUser)
+  // console.log('session in AuthContext', session)
+  // console.log('user', user)
+  // console.log('isfetchinguser value', isFetchingUser)
+
 
   useEffect(() => {
-    setSession(supabaseClient.auth.session());
+    const currentSession = supabaseClient.auth.session()
+
+    if (!currentSession) {
+      console.log("in if block")
+      router.push('/login')
+      return
+    }
+    setSession(currentSession);
+
     supabaseClient.auth.onAuthStateChange((_event, session) => {
+      console.log('session in set session useeffect', session)
       setSession(session);
     });
   }, [router, session]);
@@ -33,7 +43,7 @@ export const AuthUserContextProvider = ({ children }) => {
   useEffect(() => {
     async function fetchUser() {
       try {
-        console.log("in fetch user user effect")
+        // console.log("in fetch user user effect")
         const body = {
           user: session?.user,
         };

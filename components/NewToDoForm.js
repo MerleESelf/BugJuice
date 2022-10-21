@@ -116,6 +116,6 @@ export const NewToDoForm = (props) => {
       </select>
       <br />
     </form>
-    <button onClick={handleSubmit} >Save Task</button>
+    <button onClick={handleSubmit} className="formbutton" >Save Task</button>
   </div >)
 }
