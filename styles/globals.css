@@ -46,6 +46,13 @@ a {
   align-items: flex-start;
 }
 
-/* #mytodosdiv {
+.newtodosdiv {
   display: flex;
-} */
+  align-items: center;
+}
+
+#mytodosdiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

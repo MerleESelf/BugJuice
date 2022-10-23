@@ -60,9 +60,8 @@ const MyToDos = () => {
 
       {isLoading ? <p> Fetching Your ToDo's </p> : null}
       {isError ? <p> Something Went Wrong </p> : null}
-
-      <div>
-        <h1>{user.name}'s To-do List:</h1>
+      <h1 className="mytodosheader">{user.name}'s To-do List:</h1>
+      <div className="newtodosdiv">
         <div className="newtodoformdiv">
           <h2>Add a new to-do: </h2>
           <NewToDoForm
@@ -71,7 +70,6 @@ const MyToDos = () => {
             className="todoForm" />
         </div>
       </div>
-
       <div id="edittodosdiv">
         <div className="edittodoformdiv">
           <h3>Future: </h3>
