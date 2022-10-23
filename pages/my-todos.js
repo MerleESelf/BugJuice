@@ -11,35 +11,26 @@ const MyToDos = () => {
   // use state for the returned todos from the use effect. Initialzied to null 
   const [todos, setToDos] = useState([])
 
-  // console.log(user)
 
   // filtered future tasks 
   const future = todos.filter((todo) => {
-    console.log(todo.status)
     return todo.status === 'Future'
   })
-
   const needsAttention = todos.filter((todo) => {
-    console.log(todo.status)
     return todo.status === 'Needs Attention'
   })
-
   // filtered in progress tasks 
   const inProgress = todos.filter((todo) => {
-    console.log(todo.status)
     return todo.status === 'In Progress'
   })
-
   // filtered tasks marked done                      
   const done = todos.filter((todo) => {
-    console.log(todo.status)
     return todo.status === 'Done'
   })
 
 
   // state for loading : bool 
   const [isLoading, setIsLoading] = useState(false)
-
   //state for error: bool 
   const [isError, setIsError] = useState(false)
 
