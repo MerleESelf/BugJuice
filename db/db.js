@@ -6,6 +6,7 @@ const config = {
   username: process.env.DB_USER,
   dialect: "postgres",
   port: process.env.PORT,
+  logging: false,
 };
 
 const prod_config = {
@@ -15,6 +16,7 @@ const prod_config = {
   password: process.env.PROD_PASSWORD,
   dialect: "postgres",
   port: process.env.PROD_PORT,
+  logging: false,
 };
 
 const db = new Sequelize(prod_config);
