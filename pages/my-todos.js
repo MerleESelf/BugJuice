@@ -56,45 +56,68 @@ const MyToDos = () => {
 
 
   return (
-    <div>
+    <div id="mytodosdiv" >
+
       {isLoading ? <p> Fetching Your ToDo's </p> : null}
       {isError ? <p> Something Went Wrong </p> : null}
 
-      <h1>{user.name}'s To-do List:</h1>
-
       <div>
-        <h2>Add a new to-do: </h2>
-        <NewToDoForm getToDos={getToDos} user={user} className="todoForm" />
+        <h1>{user.name}'s To-do List:</h1>
+        <div className="newtodoformdiv">
+          <h2>Add a new to-do: </h2>
+          <NewToDoForm
+            getToDos={getToDos}
+            user={user}
+            className="todoForm" />
+        </div>
       </div>
 
-      <div>
-        <h3>Future: </h3>
-        {future.map((todo) => {
-          return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} className="todoForm" />)
-        })}
+      <div id="edittodosdiv">
+        <div className="edittodoformdiv">
+          <h3>Future: </h3>
+          {future.map((todo) => {
+            return (<EditToDosForm
+              todo={todo}
+              key={todo.id}
+              getToDos={getToDos}
+              user={user}
+              className="todoForm" />)
+          })}
+        </div>
+        <div className="edittodoformdiv">
+          <h3>Needs Attention: </h3>
+          {needsAttention.map((todo) => {
+            return (<EditToDosForm
+              todo={todo}
+              key={todo.id}
+              getToDos={getToDos}
+              user={user}
+              className="todoForm" />)
+          })}
+        </div>
+        <div className="edittodoformdiv">
+          <h3>In Progress: </h3>
+          {inProgress.map((todo) => {
+            return (<EditToDosForm
+              todo={todo}
+              key={todo.id}
+              getToDos={getToDos}
+              user={user}
+              className="todoForm" />)
+          })}
+        </div>
+        <div className="edittodoformdiv">
+          <h3>Done: </h3>
+          {done.map((todo) => {
+            return (<EditToDosForm
+              todo={todo}
+              key={todo.id}
+              getToDos={getToDos}
+              user={user} c
+              lassName="todoForm" />)
+          })}
+        </div>
       </div>
-
-      <div>
-        <h3>Needs Attention: </h3>
-        {needsAttention.map((todo) => {
-          return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} className="todoForm" />)
-        })}
-      </div>
-
-      <div>
-        <h3>In Progress: </h3>
-        {inProgress.map((todo) => {
-          return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} className="todoForm" />)
-        })}
-      </div>
-
-      <div>
-        <h3>Done: </h3>
-        {done.map((todo) => {
-          return (<EditToDosForm todo={todo} key={todo.id} getToDos={getToDos} user={user} className="todoForm" />)
-        })}
-      </div>
-
     </div>
   )
 };

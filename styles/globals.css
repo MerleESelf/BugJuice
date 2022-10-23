@@ -38,3 +38,14 @@ a {
 .formbutton {
   margin: 5px;
 }
+
+#edittodosdiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+/* #mytodosdiv {
+  display: flex;
+} */
