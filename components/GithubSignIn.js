@@ -9,7 +9,9 @@ export const GithubSignIn = () => {
       provider: "github",
     });
     if (error) console.log("Error: ", error.message);
-    else router.push("/my-todos");
+    else {
+      router.push("/my-todos");
+    }
   }
   async function handleOAuthLogout() {
     let { error } = await supabaseClient.auth.signOut();

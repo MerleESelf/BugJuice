@@ -5,8 +5,8 @@ import { useAuth } from "../hooks/useAuth";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  useAuth();
   const { user, logOut, isNewUser } = useAuthUserContext();
-  console.log(user)
   return (
     <div className={styles.container}>
       <Head>

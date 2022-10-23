@@ -1,5 +1,4 @@
 import { GithubSignIn } from "../components/GithubSignIn";
-import { useAuth } from "../hooks/useAuth";
 
 const containerStyles = {
   width: "100%",
@@ -17,7 +16,6 @@ const signInContainerStyles = {
 };
 
 const LoginPage = () => {
-
   return (
     <div style={containerStyles}>
       Login
