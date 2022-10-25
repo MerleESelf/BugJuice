@@ -2,13 +2,12 @@ import Head from "next/head";
 import Link from "next/link";
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import { useAuth } from "../hooks/useAuth";
-import styles from "../styles/Home.module.css";
 
 export default function Home() {
   useAuth();
   const { user, logOut, isNewUser } = useAuthUserContext();
   return (
-    <div className={styles.container}>
+    <div className="h-full w-full">
       <Head>
         <title>Bug Juice </title>
         <meta
@@ -18,18 +17,24 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Bug Juice</h1>
+      <main className="flex h-full w-full flex-col justify-center items-center">
         {user ? (
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div>{isNewUser ? "WELCOME TO CAMP" : "WELCOME BACK, CAMPER"}</div>
-            <div>{user.name}</div>
-            <Link href="/my-todos">
-              <button className="logo">MY TODOS</button>
-            </Link>
-            <button className="logo" onClick={logOut}>
-              Sign Out
-            </button>
+          <div className="h-1/2 flex flex-col space-y-4 justify-center">
+            <h1 className="text-5xl font-bold underline">Bug Juice</h1>
+            <div className="flex flex-col items-center justify-center">
+              <div>
+                {isNewUser ? "WELCOME TO CAMP" : "WELCOME BACK, CAMPER"}
+              </div>
+              <div>{user.name}</div>
+            </div>
+            <div className="space-x-2">
+              <Link href="/my-todos">
+                <button className="btn btn-primary">MY TODOS</button>
+              </Link>
+              <button className="btn btn-secondary" onClick={logOut}>
+                Sign Out
+              </button>
+            </div>
           </div>
         ) : (
           <Link href="/login">

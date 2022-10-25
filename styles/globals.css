@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -11,6 +15,14 @@ body {
   min-height: 100vh;
 }
 
+html,
+body,
+body>div:first-child,
+div#__next,
+div#__next>div {
+  height: 100%;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -18,41 +30,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  body {
-    color: white;
-    background: black;
-  }
-}
-
-.edittodoform {
-  margin: 15px;
-}
-
-.formbutton {
-  margin: 5px;
-}
-
-#edittodosdiv {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: flex-start;
-}
-
-.newtodosdiv {
-  display: flex;
-  align-items: center;
-}
-
-#mytodosdiv {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }

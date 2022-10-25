@@ -1,36 +1,22 @@
-import { useAuth } from "../hooks/useAuth";
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import { useEffect, useState, useCallback } from "react";
-import { EditToDosForm } from "../components/EditToDosForm";
-import { NewToDoForm } from "../components/NewToDoForm";
+import { TodoForm } from "../components/forms/TodoForm/";
+import { List } from "../components/forms/TodoForm/List";
+import { Modal } from "../components/Modal";
 
 // state for all returned todos, loading state while the useEffect will run, error state
 const MyToDos = () => {
-  useAuth();
   const { user } = useAuthUserContext();
   // use state for the returned todos from the use effect. Initialzied to null
   const [todos, setToDos] = useState([]);
-
-  // filtered future tasks
-  const future = todos.filter((todo) => {
-    return todo.status === "Future";
-  });
-  const needsAttention = todos.filter((todo) => {
-    return todo.status === "Needs Attention";
-  });
-  // filtered in progress tasks
-  const inProgress = todos.filter((todo) => {
-    return todo.status === "In Progress";
-  });
-  // filtered tasks marked done
-  const done = todos.filter((todo) => {
-    return todo.status === "Done";
-  });
-
   // state for loading : bool
   const [isLoading, setIsLoading] = useState(false);
   //state for error: bool
   const [isError, setIsError] = useState(false);
+
+  const [isAddTodoModalOpen, setIsAddTodoModalOpen] = useState(false);
+  const [isEditTodoModalOpen, setIsEditTodoModalOpen] = useState(false);
+  const [editTodoId, setEditTodoId] = useState("");
 
   const getToDos = useCallback(async () => {
     setIsLoading(true);
@@ -52,76 +38,131 @@ const MyToDos = () => {
     getToDos();
   }, [getToDos]);
 
+  const handleEditTodo = (todoId) => () => {
+    setEditTodoId(todoId);
+    setIsEditTodoModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setEditTodoId("");
+    setIsEditTodoModalOpen(false);
+  };
+
+  const handleAddTodoSubmit = async (todoValues) => {
+    try {
+      // THIS IS WHERE WE MAKEPOST REQUEST
+    } catch (err) {
+      console.log("[ADD TODO ERROR]: ", err);
+    }
+  };
+  const handleEditTodoSubmit = async (todoValues) => {
+    try {
+      // THIS IS WHERE WE PUT REQUEST
+    } catch (err) {
+      console.log("[EDIT TODO ERROR]: ", err);
+    }
+  };
+
+  const future = [];
+  const needsAttention = [];
+  const inProgress = [];
+  const done = [];
+  todos.forEach((todo) => {
+    switch (todo.status) {
+      case "Future":
+        future.push(todo);
+        break;
+      case "Needs Attention":
+        needsAttention.push(todo);
+        break;
+      case "In Progress":
+        inProgress.push(todo);
+        break;
+      case "Done":
+        done.push(todo);
+        break;
+      default:
+        throw new Error("Invalid Todo Status");
+    }
+  });
+
+  if (isLoading) {
+    return <p> {`Fetching Your ToDo's`} </p>;
+  }
+  if (isError) {
+    return <p>Something Went Wrong </p>;
+  }
+
   return (
-    <div id="mytodosdiv">
-      {isLoading ? <p> Fetching Your ToDo's </p> : null}
-      {isError ? <p> Something Went Wrong </p> : null}
-      <h1 className="mytodosheader">{user.name}'s To-do List:</h1>
-      <div className="newtodosdiv">
-        <div className="newtodoformdiv">
-          <h2>Add a new to-do: </h2>
-          <NewToDoForm getToDos={getToDos} user={user} className="todoForm" />
+    <div>
+      <div className="flex justify-between w-full px-4 py-4 mb-4 shadow-2xl bg-emerald-500">
+        <h1 className="text-3xl text-violet-500">{`${user.name}'s To-do List:`}</h1>
+        <div>
+          <button
+            className="btn btn-primary modal-button"
+            onClick={() => setIsAddTodoModalOpen(true)}
+          >
+            Add Todo
+          </button>
         </div>
       </div>
-      <div id="edittodosdiv">
-        <div className="edittodoformdiv">
-          <h3>Future: </h3>
-          {future.map((todo) => {
-            return (
-              <EditToDosForm
-                todo={todo}
-                key={todo.id}
-                getToDos={getToDos}
-                user={user}
-                className="todoForm"
-              />
-            );
-          })}
+      <div className="flex flex-row px-8 space-x-4">
+        <div className="w-1/4">
+          <List
+            todos={future}
+            handleEditTodo={handleEditTodo}
+            status="future"
+          />
         </div>
-        <div className="edittodoformdiv">
-          <h3>Needs Attention: </h3>
-          {needsAttention.map((todo) => {
-            return (
-              <EditToDosForm
-                todo={todo}
-                key={todo.id}
-                getToDos={getToDos}
-                user={user}
-                className="todoForm"
-              />
-            );
-          })}
+        <div className="w-1/4">
+          <List
+            todos={needsAttention}
+            status="needs attention"
+            handleEditTodo={handleEditTodo}
+          />
         </div>
-        <div className="edittodoformdiv">
-          <h3>In Progress: </h3>
-          {inProgress.map((todo) => {
-            return (
-              <EditToDosForm
-                todo={todo}
-                key={todo.id}
-                getToDos={getToDos}
-                user={user}
-                className="todoForm"
-              />
-            );
-          })}
+        <div className="w-1/4">
+          <List
+            todos={inProgress}
+            status="In Progress"
+            handleEditTodo={handleEditTodo}
+          />
         </div>
-        <div className="edittodoformdiv">
-          <h3>Done: </h3>
-          {done.map((todo) => {
-            return (
-              <EditToDosForm
-                todo={todo}
-                key={todo.id}
-                getToDos={getToDos}
-                user={user}
-                c
-                lassName="todoForm"
-              />
-            );
-          })}
+        <div className="w-1/4">
+          <List todos={done} status="done" handleEditTodo={handleEditTodo} />
         </div>
       </div>
+      <Modal isOpen={isAddTodoModalOpen}>
+        <div className="flex items-center justify-between">
+          <div className="text-2xl">Add Todo:</div>
+          <button className="btn" onClick={() => setIsAddTodoModalOpen(false)}>
+            X
+          </button>
+        </div>
+        <div className="w-full">
+          <TodoForm handleSubmit={handleAddTodoSubmit} />
+        </div>
+      </Modal>
+      <Modal isOpen={isEditTodoModalOpen}>
+        <div className="flex items-center justify-between">
+          <div className="text-2xl">Edit Todo: {editTodoId}</div>
+          <button className="btn" onClick={handleCloseEditModal}>
+            X
+          </button>
+        </div>
+        <div className="w-full">
+          {editTodoId ? (
+            <TodoForm
+              handleSubmit={handleEditTodoSubmit}
+              editTodoValues={todos.find((todo) => {
+                return todo.id === editTodoId;
+              })}
+            />
+          ) : (
+            <div>Loading ...</div>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

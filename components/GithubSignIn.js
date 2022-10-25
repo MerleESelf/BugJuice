@@ -10,7 +10,7 @@ export const GithubSignIn = () => {
     });
     if (error) console.log("Error: ", error.message);
     else {
-      router.push("/my-todos");
+      router.push("/");
     }
   }
   async function handleOAuthLogout() {

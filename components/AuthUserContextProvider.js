@@ -13,12 +13,31 @@ export const AuthUserContextProvider = ({ children }) => {
 
   const [isFetchingUser, setIsFetchingUser] = useState(true);
 
+  useEffect(() => {
+    if (!session) {
+      router.push("/login");
+    }
+  }, []);
+
   // THIS ONLY RUNS WHEN YOU SIGN IN
   // If there's already a session, onAuthStateChange wont run
   // the state didn't change
   useEffect(() => {
     supabaseClient.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+      switch (_event) {
+        case "SIGNED_IN": {
+          setSession(session);
+          router.push("/");
+          break;
+        }
+        case "SIGNED_OUT": {
+          setSession(null);
+          router.push("/login");
+          break;
+        }
+        default:
+          throw new Error(`Invalid _event: ${_event}`);
+      }
     });
   }, [router, session]);
 
