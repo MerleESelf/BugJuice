@@ -50,12 +50,40 @@ const MyToDos = () => {
   };
 
   const handleAddTodoSubmit = async (todoValues) => {
+    console.log(todoValues)
+    setIsLoading(true)
+    setIsError(false)
+
     try {
-      // THIS IS WHERE WE MAKEPOST REQUEST
+
+      console.log("intry block")
+      const body = {
+        todoname: todoValues.todoname,
+        due: todoValues.due,
+        status: todoValues.status,
+        priorty: todoValues.priorty,
+        userId: user.id
+      };
+
+      const response = await fetch("/api/todos", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+      });
+
     } catch (err) {
       console.log("[ADD TODO ERROR]: ", err);
+      setIsError(true)
+      setIsLoading(false)
     }
-  };
+
+    //reset your states 
+    setIsLoading(false)
+    getToDos()
+    setIsAddTodoModalOpen(false)
+
+  }
+
   const handleEditTodoSubmit = async (todoValues) => {
     setIsLoading(true)
     setIsError(false)
@@ -79,9 +107,9 @@ const MyToDos = () => {
       setIsError(true)
       setIsLoading(false)
     }
+    setIsEditTodoModalOpen(false)
     setIsLoading(false)
     getToDos()
-    setIsEditTodoModalOpen(false)
     e.preventDefault()
   };
 

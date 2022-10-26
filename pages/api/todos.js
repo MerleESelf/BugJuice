@@ -13,10 +13,11 @@ export default async function handler(req, res) {
   }
 
   if (method === "POST") {
-    const { todo, due, status, priority, userId } = body;
+    const { todoname, due, status, priority, userId } = body;
+    console.log('here!!!!!!!')
     try {
       const data = {
-        todoname: todo,
+        todoname,
         due,
         status,
         priority,

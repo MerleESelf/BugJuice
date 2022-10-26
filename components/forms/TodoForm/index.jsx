@@ -34,7 +34,7 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
       }) => {
 
         // console.log(values)
-        // console.log('handle sub--->')
+        console.log('handle sub--->', handleSubmit)
         return (
           <form
             onSubmit={(e) => {
