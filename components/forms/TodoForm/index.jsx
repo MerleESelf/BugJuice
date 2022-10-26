@@ -18,6 +18,7 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
     initialValues.status = editTodoValues.status
     initialValues.priority = editTodoValues.priority
   }
+  // console.log(Formik)
   return (
     <Formik
       onSubmit={handleSubmit}
@@ -32,12 +33,15 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
         errors,
       }) => {
 
-        console.log(values)
+        // console.log(values)
+        // console.log('handle sub--->')
         return (
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              // console.log("handleFormikSub --->", handleFormikSubmit)
               handleFormikSubmit();
+
             }}
           >
             <div className="form-control">

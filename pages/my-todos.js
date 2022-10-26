@@ -4,6 +4,7 @@ import { TodoForm } from "../components/forms/TodoForm/";
 import { List } from "../components/forms/TodoForm/List";
 import { Modal } from "../components/Modal";
 
+
 // state for all returned todos, loading state while the useEffect will run, error state
 const MyToDos = () => {
   const { user } = useAuthUserContext();
@@ -58,13 +59,14 @@ const MyToDos = () => {
   const handleEditTodoSubmit = async (todoValues) => {
     setIsLoading(true)
     setIsError(false)
+    console.log("todo values in My todos edit handler", todoValues)
     try {
       const body = {
-        id,
-        todoname: toDoInput,
-        due: dueByInput,
-        status: statusInput,
-        priorty: priorityInput
+        id: editTodoId,
+        todoname: todoValues.todoname,
+        due: todoValues.due,
+        status: todoValues.status,
+        priorty: todoValues.priorty
       };
       const response = await fetch("/api/todos", {
         method: "PUT",
@@ -79,7 +81,8 @@ const MyToDos = () => {
     }
     setIsLoading(false)
     getToDos()
-    event.preventDefault()
+    setIsEditTodoModalOpen(false)
+    e.preventDefault()
   };
 
   // handleDelete func define here 
