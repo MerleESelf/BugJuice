@@ -56,12 +56,33 @@ const MyToDos = () => {
     }
   };
   const handleEditTodoSubmit = async (todoValues) => {
+    setIsLoading(true)
+    setIsError(false)
     try {
-      // THIS IS WHERE WE PUT REQUEST
+      const body = {
+        id,
+        todoname: toDoInput,
+        due: dueByInput,
+        status: statusInput,
+        priorty: priorityInput
+      };
+      const response = await fetch("/api/todos", {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+      });
+
     } catch (err) {
       console.log("[EDIT TODO ERROR]: ", err);
+      setIsError(true)
+      setIsLoading(false)
     }
+    setIsLoading(false)
+    getToDos()
+    event.preventDefault()
   };
+
+  // handleDelete func define here 
 
   const future = [];
   const needsAttention = [];
