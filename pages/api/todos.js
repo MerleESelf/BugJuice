@@ -14,7 +14,6 @@ export default async function handler(req, res) {
 
   if (method === "POST") {
     const { todoname, due, status, priority, userId } = body;
-    console.log('here!!!!!!!')
     try {
       const data = {
         todoname,

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-export const ListItem = ({ todo, handleEditTodo }) => {
+export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
   return (
     <div className="w-3/4 p-4 shadow-xl card bg-slate-800">
       <div className="mb-2">{todo.todoname}</div>
@@ -11,7 +11,7 @@ export const ListItem = ({ todo, handleEditTodo }) => {
         >
           Edit
         </button>
-        <button className="btn btn-xs btn-secondary">Delete</button>
+        <button className="btn btn-xs btn-secondary" onClick={() => handleDelete(todo.id)}> Delete </button>
       </div>
     </div>
   );

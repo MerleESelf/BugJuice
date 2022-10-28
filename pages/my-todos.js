@@ -55,8 +55,6 @@ const MyToDos = () => {
     setIsError(false)
 
     try {
-
-      console.log("intry block")
       const body = {
         todoname: todoValues.todoname,
         due: todoValues.due,
@@ -76,18 +74,15 @@ const MyToDos = () => {
       setIsError(true)
       setIsLoading(false)
     }
-
     //reset your states 
     setIsLoading(false)
     getToDos()
     setIsAddTodoModalOpen(false)
-
   }
 
   const handleEditTodoSubmit = async (todoValues) => {
     setIsLoading(true)
     setIsError(false)
-    console.log("todo values in My todos edit handler", todoValues)
     try {
       const body = {
         id: editTodoId,
@@ -113,7 +108,29 @@ const MyToDos = () => {
     e.preventDefault()
   };
 
-  // handleDelete func define here 
+  // handleDelete func define here
+  const handleDelete = async (id) => {
+    setIsLoading(true)
+    setIsError(false)
+    try {
+      const body = {
+        id: id
+      };
+
+      const response = await fetch("/api/todos", {
+        method: "DELETE",
+        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error) {
+      console.log('Todo Delete Error', error)
+      setIsError(true)
+      setIsLoading(false)
+    }
+    setIsLoading(false)
+    getToDos()
+  }
+
 
   const future = [];
   const needsAttention = [];
@@ -171,6 +188,7 @@ const MyToDos = () => {
             todos={needsAttention}
             status="needs attention"
             handleEditTodo={handleEditTodo}
+            handleDelete={handleDelete}
           />
         </div>
         <div className="w-1/4">
@@ -178,10 +196,16 @@ const MyToDos = () => {
             todos={inProgress}
             status="In Progress"
             handleEditTodo={handleEditTodo}
+            handleDelete={handleDelete}
           />
         </div>
         <div className="w-1/4">
-          <List todos={done} status="done" handleEditTodo={handleEditTodo} />
+          <List
+            todos={done}
+            status="done"
+            handleEditTodo={handleEditTodo}
+            handleDelete={handleDelete}
+          />
         </div>
       </div>
       <Modal isOpen={isAddTodoModalOpen}>
