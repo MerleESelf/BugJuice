@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { TodoForm } from "../components/forms/TodoForm/";
 import { List } from "../components/forms/TodoForm/List";
 import { Modal } from "../components/Modal";
+import { DndContext } from "@dnd-kit/core";
 
 
 // state for all returned todos, loading state while the useEffect will run, error state
@@ -155,6 +156,18 @@ const MyToDos = () => {
     }
   });
 
+
+  // *** DND context shit ***
+  const [isDropped, setIsDropped] = useState(false);
+  const handleDragEnd = (event) => {
+    console.log('EVENT: ', event)
+    if (event.over && event.over.id === 'droppable') {
+      setIsDropped(true);
+    }
+  }
+
+  console.log("is dropped state HERE ", isDropped)
+  // loading states 
   if (isLoading) {
     return <p> {`Fetching Your ToDo's`} </p>;
   }
@@ -163,83 +176,85 @@ const MyToDos = () => {
   }
 
   return (
-    <div>
-      <div className="flex justify-between w-full px-4 py-4 mb-4 shadow-2xl bg-emerald-500">
-        <h1 className="text-3xl text-violet-500">{`${user.name}'s To-do List:`}</h1>
-        <div>
-          <button
-            className="btn btn-primary modal-button"
-            onClick={() => setIsAddTodoModalOpen(true)}
-          >
-            Add Todo
-          </button>
+    <DndContext onDragEnd={handleDragEnd}>
+      <div>
+        <div className="flex justify-between w-full px-4 py-4 mb-4 shadow-2xl bg-emerald-500">
+          <h1 className="text-3xl text-violet-500">{`${user.name}'s To-do List:`}</h1>
+          <div>
+            <button
+              className="btn btn-primary modal-button"
+              onClick={() => setIsAddTodoModalOpen(true)}
+            >
+              Add Todo
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-row px-8 space-x-4">
-        <div className="w-1/4">
-          <List
-            todos={future}
-            handleEditTodo={handleEditTodo}
-            status="future"
-          />
-        </div>
-        <div className="w-1/4">
-          <List
-            todos={needsAttention}
-            status="needs attention"
-            handleEditTodo={handleEditTodo}
-            handleDelete={handleDelete}
-          />
-        </div>
-        <div className="w-1/4">
-          <List
-            todos={inProgress}
-            status="In Progress"
-            handleEditTodo={handleEditTodo}
-            handleDelete={handleDelete}
-          />
-        </div>
-        <div className="w-1/4">
-          <List
-            todos={done}
-            status="done"
-            handleEditTodo={handleEditTodo}
-            handleDelete={handleDelete}
-          />
-        </div>
-      </div>
-      <Modal isOpen={isAddTodoModalOpen}>
-        <div className="flex items-center justify-between">
-          <div className="text-2xl">Add Todo:</div>
-          <button className="btn" onClick={() => setIsAddTodoModalOpen(false)}>
-            X
-          </button>
-        </div>
-        <div className="w-full">
-          <TodoForm handleSubmit={handleAddTodoSubmit} />
-        </div>
-      </Modal>
-      <Modal isOpen={isEditTodoModalOpen}>
-        <div className="flex items-center justify-between">
-          <div className="text-2xl">Edit Todo: {editTodoId}</div>
-          <button className="btn" onClick={handleCloseEditModal}>
-            X
-          </button>
-        </div>
-        <div className="w-full">
-          {editTodoId ? (
-            <TodoForm
-              handleSubmit={handleEditTodoSubmit}
-              editTodoValues={todos.find((todo) => {
-                return todo.id === editTodoId;
-              })}
+        <div className="flex flex-row px-8 space-x-4">
+          <div className="w-1/4">
+            <List
+              todos={future}
+              handleEditTodo={handleEditTodo}
+              status="future"
             />
-          ) : (
-            <div>Loading ...</div>
-          )}
+          </div>
+          <div className="w-1/4">
+            <List
+              todos={needsAttention}
+              status="needs attention"
+              handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
+            />
+          </div>
+          <div className="w-1/4">
+            <List
+              todos={inProgress}
+              status="In Progress"
+              handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
+            />
+          </div>
+          <div className="w-1/4">
+            <List
+              todos={done}
+              status="done"
+              handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
+            />
+          </div>
         </div>
-      </Modal>
-    </div>
+        <Modal isOpen={isAddTodoModalOpen}>
+          <div className="flex items-center justify-between">
+            <div className="text-2xl">Add Todo:</div>
+            <button className="btn" onClick={() => setIsAddTodoModalOpen(false)}>
+              X
+            </button>
+          </div>
+          <div className="w-full">
+            <TodoForm handleSubmit={handleAddTodoSubmit} />
+          </div>
+        </Modal>
+        <Modal isOpen={isEditTodoModalOpen}>
+          <div className="flex items-center justify-between">
+            <div className="text-2xl">Edit Todo: {editTodoId}</div>
+            <button className="btn" onClick={handleCloseEditModal}>
+              X
+            </button>
+          </div>
+          <div className="w-full">
+            {editTodoId ? (
+              <TodoForm
+                handleSubmit={handleEditTodoSubmit}
+                editTodoValues={todos.find((todo) => {
+                  return todo.id === editTodoId;
+                })}
+              />
+            ) : (
+              <div>Loading ...</div>
+            )}
+          </div>
+        </Modal>
+      </div>
+    </DndContext>
   );
 };
 
