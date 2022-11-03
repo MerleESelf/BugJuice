@@ -31,6 +31,7 @@ export default async function handler(req, res) {
 
   if (method === "PUT") {
     const { id } = body
+    console.log("body HERE", body)
     try {
       const todoToEdit = await db.models.todo.findByPk(id)
 

@@ -18,8 +18,8 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
 
   return (
     <div className="w-3/4 p-4 shadow-xl card bg-slate-800"
-      ref={setNodeRef} style={style}
-
+      ref={setNodeRef}
+      style={style}
       {...listeners}
       {...attributes}
     >

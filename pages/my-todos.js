@@ -109,6 +109,30 @@ const MyToDos = () => {
     e.preventDefault()
   };
 
+  // handleDroppedStatusChange
+  const handleDroppedStatusChange = async (todo, status) => {
+    setIsLoading(true)
+    setIsError(false)
+    try {
+      const body = {
+        id: todo.id,
+        status
+      };
+      const response = await fetch("/api/todos", {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+      })
+
+    } catch (err) {
+      console.log("[EDIT TODO ERROR]: ", err);
+      setIsError(true)
+      setIsLoading(false)
+    }
+    setIsLoading(false)
+    getToDos()
+  }
+
   // handleDelete func define here
   const handleDelete = async (id) => {
     setIsLoading(true)
@@ -158,15 +182,19 @@ const MyToDos = () => {
 
 
   // *** DND context shit ***
-  const [isDropped, setIsDropped] = useState(false);
+  // const [isDropped, setIsDropped] = useState(false);
+
   const handleDragEnd = (event) => {
-    console.log('EVENT: ', event)
-    if (event.over && event.over.id === 'droppable') {
-      setIsDropped(true);
+    const { active, over } = event;
+
+    if (over && over.data.current.accepts.includes(active.data.current.type)) {
+      // do stuff
+      console.log("OVER", over)
+      console.log("ACTIVE", active)
+      handleDroppedStatusChange(active.data.current.todo, over.id)
     }
   }
 
-  console.log("is dropped state HERE ", isDropped)
   // loading states 
   if (isLoading) {
     return <p> {`Fetching Your ToDo's`} </p>;
@@ -194,13 +222,13 @@ const MyToDos = () => {
             <List
               todos={future}
               handleEditTodo={handleEditTodo}
-              status="future"
+              status="Future"
             />
           </div>
           <div className="w-1/4">
             <List
               todos={needsAttention}
-              status="needs attention"
+              status="Needs Attention"
               handleEditTodo={handleEditTodo}
               handleDelete={handleDelete}
             />
@@ -216,7 +244,7 @@ const MyToDos = () => {
           <div className="w-1/4">
             <List
               todos={done}
-              status="done"
+              status="Done"
               handleEditTodo={handleEditTodo}
               handleDelete={handleDelete}
             />

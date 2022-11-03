@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import { ListItem } from "./ListItem";
-import { defaultScreenReaderInstructions, useDroppable } from "@dnd-kit/core";
+import { useDroppable } from "@dnd-kit/core";
 
 export const List = ({ todos, status, handleEditTodo, handleDelete }) => {
   const { isOver, setNodeRef } = useDroppable({
-    id: `droppable-${status}`,
+    id: `${status}`,
     data: {
       accepts: ['todo']
     }
