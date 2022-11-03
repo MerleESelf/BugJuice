@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { TodoForm } from "../components/forms/TodoForm/";
 import { List } from "../components/forms/TodoForm/List";
 import { Modal } from "../components/Modal";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 
 
 // state for all returned todos, loading state while the useEffect will run, error state
@@ -181,9 +181,19 @@ const MyToDos = () => {
 
   // *** DND context shit ***
   // const [isDropped, setIsDropped] = useState(false);
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 10,
+    }
+  })
+
+  const sensors = useSensors(
+    mouseSensor
+  )
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
+    console.log("EVENT HERE", event)
     if (over && over.data.current.accepts.includes(active.data.current.type)) {
       handleDroppedStatusChange(active.data.current.todo, over.id)
     }
@@ -198,7 +208,7 @@ const MyToDos = () => {
   }
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
       <div>
         <div className="flex justify-between w-full px-4 py-4 mb-4 shadow-2xl bg-emerald-500">
           <h1 className="text-3xl text-violet-500">{`${user.name}'s To-do List:`}</h1>
