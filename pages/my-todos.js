@@ -29,7 +29,7 @@ const MyToDos = () => {
       setToDos(allToDos);
       setIsLoading(false);
     } catch (error) {
-      console.log("todos get error", error);
+      console.log("GET TODOS ERROR", error);
       setIsError(true);
       setIsLoading(false);
     }
@@ -51,10 +51,8 @@ const MyToDos = () => {
   };
 
   const handleAddTodoSubmit = async (todoValues) => {
-    console.log(todoValues)
     setIsLoading(true)
     setIsError(false)
-
     try {
       const body = {
         todoname: todoValues.todoname,
@@ -186,11 +184,7 @@ const MyToDos = () => {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
-
     if (over && over.data.current.accepts.includes(active.data.current.type)) {
-      // do stuff
-      console.log("OVER", over)
-      console.log("ACTIVE", active)
       handleDroppedStatusChange(active.data.current.todo, over.id)
     }
   }

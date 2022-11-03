@@ -14,8 +14,6 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } : undefined;
 
-
-
   return (
     <div className="w-3/4 p-4 shadow-xl card bg-slate-800"
       ref={setNodeRef}
