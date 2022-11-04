@@ -13,9 +13,9 @@ function MyApp({ Component, pageProps }) {
   }
   return (
     <AuthUserContextProvider>
-
+      <nav className="navbar bg-base-100">
+        <a className="btn btn-ghost normal-case text-xl">Bug Juice</a> </nav>
       <Component {...pageProps} />
-
     </AuthUserContextProvider>
   );
 }

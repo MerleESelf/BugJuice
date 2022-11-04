@@ -16,7 +16,6 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main className="flex h-full w-full flex-col justify-center items-center">
         {user ? (
           <div className="h-1/2 flex flex-col space-y-4 justify-center">
@@ -29,7 +28,7 @@ export default function Home() {
             </div>
             <div className="space-x-2">
               <Link href="/my-todos">
-                <button className="btn btn-primary">MY TODOS</button>
+                <button className="btn btn-accent btn-wide ">MY TODOS</button>
               </Link>
               <button className="btn btn-secondary" onClick={logOut}>
                 Sign Out

@@ -193,7 +193,6 @@ const MyToDos = () => {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
-    console.log("EVENT HERE", event)
     if (over && over.data.current.accepts.includes(active.data.current.type)) {
       handleDroppedStatusChange(active.data.current.todo, over.id)
     }
