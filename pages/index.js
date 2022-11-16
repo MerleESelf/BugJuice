@@ -1,13 +1,18 @@
 import Head from "next/head";
 import Link from "next/link";
+import MyToDos from "./my-todos";
+import NavBar from "../components/Navbar";
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import { useAuth } from "../hooks/useAuth";
+import Footer from "../components/Footer";
 
 export default function Home() {
   useAuth();
   const { user, logOut, isNewUser } = useAuthUserContext();
+
+  const logoStyle = { height: "80px", width: "80px" }
   return (
-    <div className="h-full w-full">
+    <div className="flex flex-col justify-between w-full h-full">
       <Head>
         <title>Bug Juice </title>
         <meta
@@ -16,31 +21,21 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex h-full w-full flex-col justify-center items-center">
-        {user ? (
-          <div className="h-1/2 flex flex-col space-y-4 justify-center">
-            <h1 className="text-5xl font-bold underline">Bug Juice</h1>
-            <div className="flex flex-col items-center justify-center">
-              <div>
-                {isNewUser ? "WELCOME TO CAMP" : "WELCOME BACK, CAMPER"}
-              </div>
-              <div>{user.name}</div>
-            </div>
-            <div className="space-x-2">
-              <Link href="/my-todos">
-                <button className="btn btn-accent btn-wide ">MY TODOS</button>
-              </Link>
-              <button className="btn btn-secondary" onClick={logOut}>
-                Sign Out
-              </button>
-            </div>
+      {user ? (
+        <div >
+          <NavBar logoStyle={logoStyle} logOut={logOut} />
+
+          <div className="flex flex-col items-center justify-center">
+
           </div>
-        ) : (
-          <Link href="/login">
-            <button className="logo">LOGIN</button>
-          </Link>
-        )}
-      </main>
-    </div>
+          <MyToDos />
+        </div>
+      ) : (
+        <Link href="/login">
+          <button className="logo">LOGIN</button>
+        </Link>
+      )}
+      <Footer />
+    </div >
   );
 }

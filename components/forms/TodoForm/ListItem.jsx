@@ -13,9 +13,9 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } : undefined;
-
+  console.log(handleDelete)
   return (
-    <div className="w-3/4 p-4 shadow-xl card bg-slate-800"
+    <div className="w-3/4 p-4 shadow-xl card bg-base-100"
       ref={setNodeRef}
       style={style}
       {...listeners}
@@ -29,7 +29,12 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
         >
           Edit
         </button>
-        <button className="btn btn-xs btn-secondary" onClick={() => handleDelete(todo.id)}> Delete </button>
+        <button
+          className="btn btn-xs btn-secondary"
+          onClick={() => handleDelete(todo.id)}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );
@@ -38,4 +43,5 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
 ListItem.propTypes = {
   todo: PropTypes.object,
   handleEditTodo: PropTypes.func,
+  handleDelete: PropTypes.func
 };

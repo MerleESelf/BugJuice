@@ -29,10 +29,10 @@ export const GithubSignIn = () => {
         Sign In With GitHub{" "}
       </button>
 
-      <button
+      {/* <button
         onClick={handleOAuthLogout}
       >
-        Sign Out</button>
+        Sign Out</button> */}
     </div>
   );
 };

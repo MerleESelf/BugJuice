@@ -178,9 +178,7 @@ const MyToDos = () => {
     }
   });
 
-
-  // *** DND context shit ***
-  // const [isDropped, setIsDropped] = useState(false);
+  // *** DND context ***
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
       distance: 10,
@@ -208,27 +206,25 @@ const MyToDos = () => {
 
   return (
     <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
-      <div>
-        <div className="flex justify-between w-full px-4 py-4 mb-4 shadow-2xl bg-emerald-500">
-          <h1 className="text-3xl text-violet-500">{`${user.name}'s To-do List:`}</h1>
-          <div>
-            <button
-              className="btn btn-primary modal-button"
-              onClick={() => setIsAddTodoModalOpen(true)}
-            >
-              Add Todo
-            </button>
-          </div>
-        </div>
-        <div className="flex flex-row px-8 space-x-4">
-          <div className="w-1/4">
+      <div className="flex flex-row mt-12">
+
+        <button
+          className="m-5 btn btn-secondary modal-button"
+          onClick={() => setIsAddTodoModalOpen(true)}
+        >
+          Add Todo
+        </button>
+
+        <div className="flex flex-row w-full px-8 space-x-4">
+          <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
             <List
               todos={future}
               handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
               status="Future"
             />
           </div>
-          <div className="w-1/4">
+          <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
             <List
               todos={needsAttention}
               status="Needs Attention"
@@ -236,7 +232,7 @@ const MyToDos = () => {
               handleDelete={handleDelete}
             />
           </div>
-          <div className="w-1/4">
+          <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
             <List
               todos={inProgress}
               status="In Progress"
@@ -244,7 +240,7 @@ const MyToDos = () => {
               handleDelete={handleDelete}
             />
           </div>
-          <div className="w-1/4">
+          <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
             <List
               todos={done}
               status="Done"
