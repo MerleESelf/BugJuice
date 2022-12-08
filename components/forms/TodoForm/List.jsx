@@ -13,12 +13,16 @@ export const List = ({ todos, status, handleEditTodo, handleDelete }) => {
     color: isOver ? '#c084fc' : undefined,
   };
   return (
-    <div className="static flex flex-col items-center pb-6 space-y-6 card" ref={setNodeRef} style={style}>
-      <div className="text-3xl ">{status}</div>
-      {todos.map((todo) => (
-        <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
-      ))}
-    </div>
+    < >
+      <div className="text-3xl text-center">{status}</div>
+      <div className="static flex flex-col items-center w-full pb-6 space-y-6 card " ref={setNodeRef} style={style}>
+        {
+          todos.map((todo) => (
+            <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
+          ))
+        }
+      </div >
+    </>
   );
 };
 

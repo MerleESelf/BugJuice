@@ -215,7 +215,7 @@ const MyToDos = () => {
           Add Todo
         </button>
 
-        <div className="flex flex-row w-full px-8 space-x-4">
+        <div className="flex flex-row w-full px-8 space-x-4 flex-grow-1">
           <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
             <List
               todos={future}

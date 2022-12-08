@@ -12,7 +12,7 @@ export default function Home() {
 
   const logoStyle = { height: "80px", width: "80px" }
   return (
-    <div className="flex flex-col justify-between w-full h-full">
+    <div className="flex flex-col justify-between w-screen h-screen">
       <Head>
         <title>Bug Juice </title>
         <meta
@@ -22,12 +22,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {user ? (
-        <div >
+        <div className="w-full h-full">
           <NavBar logoStyle={logoStyle} logOut={logOut} />
-
-          <div className="flex flex-col items-center justify-center">
-
-          </div>
           <MyToDos />
         </div>
       ) : (
