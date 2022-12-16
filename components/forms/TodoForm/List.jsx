@@ -10,19 +10,18 @@ export const List = ({ todos, status, handleEditTodo, handleDelete }) => {
     }
   })
   const style = {
-    color: isOver ? '#c084fc' : undefined,
+    transform: isOver ? "scale(1.1)" : undefined,
   };
   return (
-    < >
-      <div className="text-3xl text-center">{status}</div>
-      <div className="static flex flex-col items-center w-full pb-6 space-y-6 card " ref={setNodeRef} style={style}>
-        {
-          todos.map((todo) => (
-            <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
-          ))
-        }
-      </div >
-    </>
+    <div className="flex flex-col items-center w-full h-full pb-6 space-y-6 card" ref={setNodeRef}>
+      <div className="mt-3 text-2xl text-center " style={style}>{status}</div>
+      {
+        todos.map((todo) => (
+          <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
+        ))
+      }
+    </div >
+
   );
 };
 

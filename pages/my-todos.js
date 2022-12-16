@@ -2,8 +2,9 @@ import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import { useEffect, useState, useCallback } from "react";
 import { TodoForm } from "../components/forms/TodoForm/";
 import { List } from "../components/forms/TodoForm/List";
+import { ListItemOverlay } from "../components/ListItemOverlay";
 import { Modal } from "../components/Modal";
-import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { DndContext, MouseSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
 
 
 // state for all returned todos, loading state while the useEffect will run, error state
@@ -19,6 +20,10 @@ const MyToDos = () => {
   const [isAddTodoModalOpen, setIsAddTodoModalOpen] = useState(false);
   const [isEditTodoModalOpen, setIsEditTodoModalOpen] = useState(false);
   const [editTodoId, setEditTodoId] = useState("");
+
+  // state for the active id needed for the dragOverlay
+  const [activeId, setActiveId] = useState(null);
+  const [activeTodo, setActiveTodo] = useState(null)
 
   const getToDos = useCallback(async () => {
     setIsLoading(true);
@@ -58,7 +63,7 @@ const MyToDos = () => {
         todoname: todoValues.todoname,
         due: todoValues.due,
         status: todoValues.status,
-        priorty: todoValues.priorty,
+        priority: todoValues.priority,
         userId: user.id
       };
 
@@ -88,7 +93,7 @@ const MyToDos = () => {
         todoname: todoValues.todoname,
         due: todoValues.due,
         status: todoValues.status,
-        priorty: todoValues.priorty
+        priority: todoValues.priority
       };
       const response = await fetch("/api/todos", {
         method: "PUT",
@@ -189,10 +194,19 @@ const MyToDos = () => {
     mouseSensor
   )
 
+  const handleDragStart = (event) => {
+    const { active } = event
+    setActiveId(active.id)
+    setActiveTodo(active.data.current.todo);
+  }
+
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (over && over.data.current.accepts.includes(active.data.current.type)) {
       handleDroppedStatusChange(active.data.current.todo, over.id)
+      setActiveId(null)
+      setActiveTodo(null)
     }
   }
 
@@ -204,51 +218,57 @@ const MyToDos = () => {
     return <p>Something Went Wrong </p>;
   }
 
+  // "flex flex-row flex-grow my-5 sm:flex-col "
   return (
-    <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
-      <div className="flex flex-row mt-12">
-
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
+      <div className="grid grid-cols-6 gap-4 h-4/5">
         <button
-          className="m-5 btn btn-secondary modal-button"
+          className="w-32 m-5 btn btn-ghost modal-button"
           onClick={() => setIsAddTodoModalOpen(true)}
         >
           Add Todo
         </button>
-
-        <div className="flex flex-row w-full px-8 space-x-4 flex-grow-1">
-          <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
-            <List
-              todos={future}
-              handleEditTodo={handleEditTodo}
-              handleDelete={handleDelete}
-              status="Future"
-            />
-          </div>
-          <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
-            <List
-              todos={needsAttention}
-              status="Needs Attention"
-              handleEditTodo={handleEditTodo}
-              handleDelete={handleDelete}
-            />
-          </div>
-          <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
-            <List
-              todos={inProgress}
-              status="In Progress"
-              handleEditTodo={handleEditTodo}
-              handleDelete={handleDelete}
-            />
-          </div>
-          <div className="grid flex-grow shadow-lg card bg-base-300 rounded-box place-items-center">
-            <List
-              todos={done}
-              status="Done"
-              handleEditTodo={handleEditTodo}
-              handleDelete={handleDelete}
-            />
-          </div>
+        {/* <div className="flex flex-row w-full px-8 space-x-4"> */}
+        <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
+          <List
+            todos={future}
+            handleEditTodo={handleEditTodo}
+            handleDelete={handleDelete}
+            status="Future"
+          />
         </div>
+        <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
+          <List
+            todos={needsAttention}
+            status="Needs Attention"
+            handleEditTodo={handleEditTodo}
+            handleDelete={handleDelete}
+          />
+        </div>
+        <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
+          <List
+            todos={inProgress}
+            status="In Progress"
+            handleEditTodo={handleEditTodo}
+            handleDelete={handleDelete}
+          />
+        </div>
+        <div className="flex-grow col-span-1 my-4 mr-4 shadow-lg card bg-base-300 rounded-box place-items-center">
+          <List
+            todos={done}
+            status="Done"
+            handleEditTodo={handleEditTodo}
+            handleDelete={handleDelete}
+          />
+        </div>
+        {/* </div> */}
+
+        <DragOverlay>
+          {activeId ? (
+            <ListItemOverlay todo={activeTodo} />
+          ) : null}
+        </DragOverlay>
+
         <Modal isOpen={isAddTodoModalOpen}>
           <div className="flex items-center justify-between">
             <div className="text-2xl">Add Todo:</div>
@@ -280,8 +300,8 @@ const MyToDos = () => {
             )}
           </div>
         </Modal>
-      </div>
-    </DndContext>
+      </div >
+    </DndContext >
   );
 };
 

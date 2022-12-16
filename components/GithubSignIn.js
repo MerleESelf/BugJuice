@@ -20,19 +20,13 @@ export const GithubSignIn = () => {
 
   return (
     <div
-      className="header"
-      style={{ display: "flex", flexDirection: "column" }}
+      className="flex flex-col text-4xl"
     >
       <button onClick={handleOAuthLogin}
-        style={{ marginBottom: "10px" }}
+        className="m-5 btn btn-ghost"
       >
-        Sign In With GitHub{" "}
+        Sign In With GitHub
       </button>
-
-      {/* <button
-        onClick={handleOAuthLogout}
-      >
-        Sign Out</button> */}
     </div>
   );
 };

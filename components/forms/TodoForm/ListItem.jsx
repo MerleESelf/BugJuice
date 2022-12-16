@@ -13,28 +13,33 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } : undefined;
-  console.log(handleDelete)
+
   return (
-    <div className="w-3/4 p-4 shadow-xl card bg-base-100"
+    <div className="flex flex-col items-center w-full indicator"
       ref={setNodeRef}
       style={style}
       {...listeners}
       {...attributes}
     >
-      <div className="mb-2">{todo.todoname}</div>
-      <div className="space-x-2">
-        <button
-          className="btn btn-xs btn-primary"
-          onClick={handleEditTodo(todo.id)}
-        >
-          Edit
-        </button>
-        <button
-          className="btn btn-xs btn-secondary"
-          onClick={() => handleDelete(todo.id)}
-        >
-          Delete
-        </button>
+      <span className="mt-2 indicator-item indicator-center badge badge-outline">{todo.priority}</span>
+      <div className="w-3/4 p-4 shadow-xl card bg-base-100">
+        <div className="my-2">
+          <span>{todo.todoname} </span>
+        </div>
+        <div className="space-x-2 grid-col-2 ">
+          <button
+            className="btn btn-xs btn-primary"
+            onClick={handleEditTodo(todo.id)}
+          >
+            Edit
+          </button>
+          <button
+            className="btn btn-xs btn-secondary "
+            onClick={() => handleDelete(todo.id)}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );
