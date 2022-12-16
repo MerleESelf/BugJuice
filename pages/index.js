@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import MyToDos from "./my-todos";
 import NavBar from "../components/Navbar";
@@ -24,7 +25,7 @@ export default function Home() {
       {user ? (
         <>
           <NavBar logoStyle={logoStyle} logOut={logOut} />
-          <img src="Bug Juice copy.png" alt="" style={{ height: "150px", width: "210px" }} className="absolute z-10 mt-16"></img>
+          <Image src="Bug Juice copy.png" alt="" style={{ height: "150px", width: "210px" }} className="absolute z-10 mt-16" />
           <MyToDos />
         </>
       ) : (
