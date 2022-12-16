@@ -1,7 +1,6 @@
 import { GithubSignIn } from "../components/GithubSignIn";
 
 const LoginPage = () => {
-  const logoStyle = { height: "80px", width: "80px" }
   return (
     <div className="min-h-screen hero bg-base-200">
       <div className="flex-col shadow-2xl hero-content lg:flex-row bg-base-300">

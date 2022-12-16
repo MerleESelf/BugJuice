@@ -13,10 +13,7 @@ export const GithubSignIn = () => {
       router.push("/");
     }
   }
-  async function handleOAuthLogout() {
-    let { error } = await supabaseClient.auth.signOut();
-    if (error) console.log("Error: ", error.message);
-  }
+
 
   return (
     <div
