@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 export const ListItemOverlay = ({ todo }) => {
   return (
     <div className="flex flex-col items-center w-full indicator">
@@ -6,6 +7,7 @@ export const ListItemOverlay = ({ todo }) => {
       >
         <div className="my-2">
           <span>{todo.todoname} </span>
+          <p>Complete by: {todo.due}</p>
         </div>
         <div className="space-x-2 grid-col-2 ">
           <button
@@ -24,3 +26,6 @@ export const ListItemOverlay = ({ todo }) => {
   );
 };
 
+ListItemOverlay.propTypes = {
+  todo: PropTypes.object,
+};

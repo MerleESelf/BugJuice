@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useDraggable } from "@dnd-kit/core";
 
+
 export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
   //from dnd quick start 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -12,7 +13,9 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
   });
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+    visibility: "hidden"
   } : undefined;
+
 
   return (
     <div className="flex flex-col items-center w-full indicator"
@@ -45,9 +48,9 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
     </div>
   );
 };
-
 ListItem.propTypes = {
   todo: PropTypes.object,
   handleEditTodo: PropTypes.func,
   handleDelete: PropTypes.func
 };
+

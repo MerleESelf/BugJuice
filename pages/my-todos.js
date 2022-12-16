@@ -69,7 +69,7 @@ const MyToDos = () => {
         userId: user.id
       };
 
-      const response = await fetch("/api/todos", {
+      await fetch("/api/todos", {
         method: "POST",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
@@ -80,9 +80,9 @@ const MyToDos = () => {
       setIsError(true)
       setIsLoading(false)
     }
-    //reset your states 
+    //reset your states
+    await getToDos()
     setIsLoading(false)
-    getToDos()
     setIsAddTodoModalOpen(false)
   }
 
@@ -97,21 +97,23 @@ const MyToDos = () => {
         status: todoValues.status,
         priority: todoValues.priority
       };
-      const response = await fetch("/api/todos", {
+      await fetch("/api/todos", {
         method: "PUT",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
       });
+      await getToDos()
+      setIsEditTodoModalOpen(false)
+      setIsLoading(false)
+
 
     } catch (err) {
       console.log("[EDIT TODO ERROR]: ", err);
       setIsError(true)
       setIsLoading(false)
     }
-    setIsEditTodoModalOpen(false)
-    setIsLoading(false)
-    getToDos()
-    e.preventDefault()
+
+
   };
 
   // handleDroppedStatusChange
@@ -123,7 +125,7 @@ const MyToDos = () => {
         id: todo.id,
         status
       };
-      const response = await fetch("/api/todos", {
+      await fetch("/api/todos", {
         method: "PUT",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
@@ -134,8 +136,8 @@ const MyToDos = () => {
       setIsError(true)
       setIsLoading(false)
     }
+    await getToDos()
     setIsLoading(false)
-    getToDos()
   }
 
   // handleDelete func define here
@@ -147,7 +149,7 @@ const MyToDos = () => {
         id: id
       };
 
-      const response = await fetch("/api/todos", {
+      await fetch("/api/todos", {
         method: "DELETE",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
@@ -157,8 +159,8 @@ const MyToDos = () => {
       setIsError(true)
       setIsLoading(false)
     }
+    await getToDos()
     setIsLoading(false)
-    getToDos()
   }
 
 

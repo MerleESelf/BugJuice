@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 
 export default function Home() {
   useAuth();
-  const { user, logOut, isNewUser } = useAuthUserContext();
+  const { user, logOut } = useAuthUserContext();
 
   const logoStyle = { height: "80px", width: "80px" }
   return (
@@ -24,7 +24,7 @@ export default function Home() {
       {user ? (
         <>
           <NavBar logoStyle={logoStyle} logOut={logOut} />
-          <img src="Bug Juice copy.png" alt="" style={{ height: "150px", width: "150px" }} className="absolute z-10 mt-16"></img>
+          <img src="Bug Juice copy.png" alt="" style={{ height: "150px", width: "210px" }} className="absolute z-10 mt-16"></img>
           <MyToDos />
         </>
       ) : (
