@@ -18,7 +18,7 @@ export const AuthUserContextProvider = ({ children }) => {
     if (!session) {
       router.push("/login");
     }
-  }, []);
+  }, [router, session]);
 
   useEffect(() => {
     supabaseClient.auth.onAuthStateChange((_event, session) => {

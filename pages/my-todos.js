@@ -168,7 +168,6 @@ const MyToDos = () => {
     }
   });
 
-  // *** DND context ***
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
       distance: 10,

@@ -10,10 +10,8 @@ import Footer from "../components/Footer";
 export default function Home() {
   useAuth();
   const { user, logOut } = useAuthUserContext();
-
-  const logoStyle = { height: "80px", width: "80px" }
   return (
-    <div className="flex flex-col justify-between ">
+    <div >
       <Head>
         <title>Bug Juice </title>
         <meta
@@ -23,11 +21,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {user ? (
-        <>
-          <NavBar logoStyle={logoStyle} logOut={logOut} />
-          <Image src="Bug Juice copy.png" alt="" style={{ height: "150px", width: "210px" }} className="absolute z-10 mt-16" />
+        <div className="flex flex-col justify-between ">
+          <NavBar logOut={logOut} />
+          <Image src="/Bug Juice copy.png" alt="" height={150} width={210} className="absolute top-0 z-10 flex-none mt-16" />
           <MyToDos />
-        </>
+        </div >
       ) : (
         <Link href="/login">
           <button className="logo">LOGIN</button>
