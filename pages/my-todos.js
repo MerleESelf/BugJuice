@@ -4,6 +4,8 @@ import { TodoForm } from "../components/forms/TodoForm/";
 import { List } from "../components/forms/TodoForm/List";
 import { ListItemOverlay } from "../components/ListItemOverlay";
 import { Modal } from "../components/Modal";
+import { Loading } from "../components/Loading"
+import { Error } from "../components/Error"
 import { DndContext, MouseSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
 
 
@@ -212,23 +214,25 @@ const MyToDos = () => {
 
   // loading states 
   if (isLoading) {
-    return <p> {`Fetching Your ToDo's`} </p>;
+    return (
+      <div>
+        <Loading />
+      </div>);
   }
   if (isError) {
-    return <p>Something Went Wrong </p>;
+    return <Error />;
   }
-
-  // "flex flex-row flex-grow my-5 sm:flex-col "
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
-      <div className="grid grid-cols-6 gap-4 h-4/5">
+      <div className="flex flex-col items-center">
         <button
-          className="w-32 m-5 btn btn-ghost modal-button"
+          className="w-1/3 m-5 btn btn-ghost modal-button"
           onClick={() => setIsAddTodoModalOpen(true)}
         >
-          Add Todo
+          ADD TO-DO
         </button>
-        {/* <div className="flex flex-row w-full px-8 space-x-4"> */}
+      </div>
+      <div className="grid grid-cols-4 gap-4 h-4/5">
         <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
           <List
             todos={future}
@@ -261,8 +265,6 @@ const MyToDos = () => {
             handleDelete={handleDelete}
           />
         </div>
-        {/* </div> */}
-
         <DragOverlay>
           {activeId ? (
             <ListItemOverlay todo={activeTodo} />
@@ -282,7 +284,7 @@ const MyToDos = () => {
         </Modal>
         <Modal isOpen={isEditTodoModalOpen}>
           <div className="flex items-center justify-between">
-            <div className="text-2xl">Edit Todo: {editTodoId}</div>
+            <div className="text-2xl">Edit to-do:</div>
             <button className="btn" onClick={handleCloseEditModal}>
               X
             </button>
@@ -296,7 +298,7 @@ const MyToDos = () => {
                 })}
               />
             ) : (
-              <div>Loading ...</div>
+              <Loading />
             )}
           </div>
         </Modal>

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabaseClient } from "../lib/supabase";
+import { Loading } from "./Loading";
 
 const AuthUserContext = createContext(null);
 
@@ -86,9 +87,6 @@ export const AuthUserContextProvider = ({ children }) => {
     }
   };
 
-  const Loading = () => {
-    return <div>Loading...</div>;
-  };
 
   // they landed on the /, and they are logged in?
   // they went to /login and logged in

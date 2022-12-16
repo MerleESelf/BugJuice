@@ -25,6 +25,7 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
       <div className="w-3/4 p-4 shadow-xl card bg-base-100">
         <div className="my-2">
           <span>{todo.todoname} </span>
+          <p>Complete by: {todo.due}</p>
         </div>
         <div className="space-x-2 grid-col-2 ">
           <button

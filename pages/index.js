@@ -24,6 +24,7 @@ export default function Home() {
       {user ? (
         <>
           <NavBar logoStyle={logoStyle} logOut={logOut} />
+          <img src="Bug Juice copy.png" alt="" style={{ height: "150px", width: "150px" }} className="absolute z-10 mt-16"></img>
           <MyToDos />
         </>
       ) : (
