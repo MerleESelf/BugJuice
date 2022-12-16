@@ -8,22 +8,14 @@ import { Loading } from "../components/Loading"
 import { Error } from "../components/Error"
 import { DndContext, MouseSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
 
-
-// state for all returned todos, loading state while the useEffect will run, error state
 const MyToDos = () => {
   const { user } = useAuthUserContext();
-  // use state for the returned todos from the use effect. Initialzied to null
   const [todos, setToDos] = useState([]);
-  // state for loading : bool
   const [isLoading, setIsLoading] = useState(false);
-  //state for error: bool
   const [isError, setIsError] = useState(false);
-
   const [isAddTodoModalOpen, setIsAddTodoModalOpen] = useState(false);
   const [isEditTodoModalOpen, setIsEditTodoModalOpen] = useState(false);
   const [editTodoId, setEditTodoId] = useState("");
-
-  // state for the active id needed for the dragOverlay
   const [activeId, setActiveId] = useState(null);
   const [activeTodo, setActiveTodo] = useState(null)
 
@@ -42,7 +34,6 @@ const MyToDos = () => {
     }
   }, []);
 
-  // use effect to query for data upon page load to get all todos for a user
   useEffect(() => {
     getToDos();
   }, [getToDos]);
@@ -68,22 +59,20 @@ const MyToDos = () => {
         priority: todoValues.priority,
         userId: user.id
       };
-
       await fetch("/api/todos", {
         method: "POST",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
       });
+      await getToDos()
+      setIsLoading(false)
+      setIsAddTodoModalOpen(false)
 
     } catch (err) {
       console.log("[ADD TODO ERROR]: ", err);
       setIsError(true)
       setIsLoading(false)
     }
-    //reset your states
-    await getToDos()
-    setIsLoading(false)
-    setIsAddTodoModalOpen(false)
   }
 
   const handleEditTodoSubmit = async (todoValues) => {
@@ -105,18 +94,13 @@ const MyToDos = () => {
       await getToDos()
       setIsEditTodoModalOpen(false)
       setIsLoading(false)
-
-
     } catch (err) {
       console.log("[EDIT TODO ERROR]: ", err);
       setIsError(true)
       setIsLoading(false)
     }
-
-
   };
 
-  // handleDroppedStatusChange
   const handleDroppedStatusChange = async (todo, status) => {
     setIsLoading(true)
     setIsError(false)
@@ -130,17 +114,16 @@ const MyToDos = () => {
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
       })
-
+      await getToDos()
+      setIsLoading(false)
     } catch (err) {
       console.log("[EDIT TODO ERROR]: ", err);
       setIsError(true)
       setIsLoading(false)
     }
-    await getToDos()
-    setIsLoading(false)
+
   }
 
-  // handleDelete func define here
   const handleDelete = async (id) => {
     setIsLoading(true)
     setIsError(false)
@@ -148,21 +131,19 @@ const MyToDos = () => {
       const body = {
         id: id
       };
-
       await fetch("/api/todos", {
         method: "DELETE",
         body: JSON.stringify(body),
         headers: { "Content-Type": "application/json" },
       });
+      await getToDos()
+      setIsLoading(false)
     } catch (error) {
       console.log('Todo Delete Error', error)
       setIsError(true)
       setIsLoading(false)
     }
-    await getToDos()
-    setIsLoading(false)
   }
-
 
   const future = [];
   const needsAttention = [];
@@ -193,18 +174,14 @@ const MyToDos = () => {
       distance: 10,
     }
   })
-
   const sensors = useSensors(
     mouseSensor
   )
-
   const handleDragStart = (event) => {
     const { active } = event
     setActiveId(active.id)
     setActiveTodo(active.data.current.todo);
   }
-
-
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (over && over.data.current.accepts.includes(active.data.current.type)) {
@@ -214,16 +191,10 @@ const MyToDos = () => {
     }
   }
 
-  // loading states 
-  if (isLoading) {
-    return (
-      <div>
-        <Loading />
-      </div>);
-  }
   if (isError) {
     return <Error />;
   }
+
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
       <div className="flex flex-col items-center">
@@ -234,77 +205,82 @@ const MyToDos = () => {
           ADD TO-DO
         </button>
       </div>
-      <div className="grid grid-cols-4 gap-4 h-4/5">
-        <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
-          <List
-            todos={future}
-            handleEditTodo={handleEditTodo}
-            handleDelete={handleDelete}
-            status="Future"
-          />
-        </div>
-        <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
-          <List
-            todos={needsAttention}
-            status="Needs Attention"
-            handleEditTodo={handleEditTodo}
-            handleDelete={handleDelete}
-          />
-        </div>
-        <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
-          <List
-            todos={inProgress}
-            status="In Progress"
-            handleEditTodo={handleEditTodo}
-            handleDelete={handleDelete}
-          />
-        </div>
-        <div className="flex-grow col-span-1 my-4 mr-4 shadow-lg card bg-base-300 rounded-box place-items-center">
-          <List
-            todos={done}
-            status="Done"
-            handleEditTodo={handleEditTodo}
-            handleDelete={handleDelete}
-          />
-        </div>
-        <DragOverlay>
-          {activeId ? (
-            <ListItemOverlay todo={activeTodo} />
-          ) : null}
-        </DragOverlay>
-
-        <Modal isOpen={isAddTodoModalOpen}>
-          <div className="flex items-center justify-between">
-            <div className="text-2xl">Add Todo:</div>
-            <button className="btn" onClick={() => setIsAddTodoModalOpen(false)}>
-              X
-            </button>
+      <div className="h-4/5">
+        {isLoading ?
+          <Loading />
+          : null
+        }
+        <div className="grid h-full grid-cols-4 gap-4">
+          <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
+            <List
+              todos={future}
+              handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
+              status="Future"
+            />
           </div>
-          <div className="w-full">
-            <TodoForm handleSubmit={handleAddTodoSubmit} />
+          <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
+            <List
+              todos={needsAttention}
+              status="Needs Attention"
+              handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
+            />
           </div>
-        </Modal>
-        <Modal isOpen={isEditTodoModalOpen}>
-          <div className="flex items-center justify-between">
-            <div className="text-2xl">Edit to-do:</div>
-            <button className="btn" onClick={handleCloseEditModal}>
-              X
-            </button>
+          <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
+            <List
+              todos={inProgress}
+              status="In Progress"
+              handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
+            />
           </div>
-          <div className="w-full">
-            {editTodoId ? (
-              <TodoForm
-                handleSubmit={handleEditTodoSubmit}
-                editTodoValues={todos.find((todo) => {
-                  return todo.id === editTodoId;
-                })}
-              />
-            ) : (
-              <Loading />
-            )}
+          <div className="flex-grow col-span-1 my-4 mr-4 shadow-lg card bg-base-300 rounded-box place-items-center">
+            <List
+              todos={done}
+              status="Done"
+              handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
+            />
           </div>
-        </Modal>
-      </div >
+          <DragOverlay>
+            {activeId ? (
+              <ListItemOverlay todo={activeTodo} />
+            ) : null}
+          </DragOverlay>
+          <Modal isOpen={isAddTodoModalOpen}>
+            <div className="flex items-center justify-between">
+              <div className="text-2xl">Add Todo:</div>
+              <button className="btn" onClick={() => setIsAddTodoModalOpen(false)}>
+                X
+              </button>
+            </div>
+            <div className="w-full">
+              <TodoForm handleSubmit={handleAddTodoSubmit} />
+            </div>
+          </Modal>
+          <Modal isOpen={isEditTodoModalOpen}>
+            <div className="flex items-center justify-between">
+              <div className="text-2xl">Edit to-do:</div>
+              <button className="btn" onClick={handleCloseEditModal}>
+                X
+              </button>
+            </div>
+            <div className="w-full">
+              {editTodoId ? (
+                <TodoForm
+                  handleSubmit={handleEditTodoSubmit}
+                  editTodoValues={todos.find((todo) => {
+                    return todo.id === editTodoId;
+                  })}
+                />
+              ) : (
+                <Loading />
+              )}
+            </div>
+          </Modal>
+        </div >
+      </div>
     </DndContext >
   );
 };

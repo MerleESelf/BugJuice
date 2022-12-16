@@ -3,7 +3,6 @@ import { useDraggable } from "@dnd-kit/core";
 
 
 export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
-  //from dnd quick start 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `draggable-${todo.id}`,
     data: {

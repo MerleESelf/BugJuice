@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabaseClient } from "../lib/supabase";
 import { Loading } from "./Loading";
@@ -7,7 +8,6 @@ const AuthUserContext = createContext(null);
 
 export const AuthUserContextProvider = ({ children }) => {
   const router = useRouter();
-  // we init the session like this: <the session> || null
   const [session, setSession] = useState(supabaseClient.auth.session());
   const [user, setUser] = useState(null);
   const [isNewUser, setIsNewUser] = useState(false);
@@ -20,9 +20,6 @@ export const AuthUserContextProvider = ({ children }) => {
     }
   }, []);
 
-  // THIS ONLY RUNS WHEN YOU SIGN IN
-  // If there's already a session, onAuthStateChange wont run
-  // the state didn't change
   useEffect(() => {
     supabaseClient.auth.onAuthStateChange((_event, session) => {
       switch (_event) {
@@ -48,7 +45,6 @@ export const AuthUserContextProvider = ({ children }) => {
     }
   }, [user]);
 
-  // if there's a session, we want to query for they user in our db
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -87,9 +83,6 @@ export const AuthUserContextProvider = ({ children }) => {
     }
   };
 
-
-  // they landed on the /, and they are logged in?
-  // they went to /login and logged in
   const contextValue = {
     logOut,
     session,
@@ -100,11 +93,12 @@ export const AuthUserContextProvider = ({ children }) => {
   };
   return (
     <AuthUserContext.Provider value={contextValue}>
-      {isFetchingUser ? <Loading /> : children}
+      {isFetchingUser ? <div className="flex flex-col items-center content-center w-full h-full"> <Loading /> </div> : children}
     </AuthUserContext.Provider>
   );
 };
+AuthUserContextProvider.propTypes = {
+  children: PropTypes.object
+};
 
-// custom sweet hook we can use to access context anywhere within the scope of the context provider
-// we're gonna put this context provider in _App.js
 export const useAuthUserContext = () => useContext(AuthUserContext);
