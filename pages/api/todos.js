@@ -45,7 +45,6 @@ export default async function handler(req, res) {
   }
 
   if (method === "DELETE") {
-    // get id for task off the body and 
     const { id } = body
     try {
       const todoToDelete = await db.models.todo.findByPk(id)

@@ -21,9 +21,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {user ? (
-        <div className="flex flex-col justify-between ">
+        <div className="relative flex flex-col justify-between">
           <NavBar logOut={logOut} />
-          <Image src="/Bug Juice copy.png" alt="" height={150} width={210} className="absolute top-0 z-10 flex-none mt-16" />
+          <div className="absolute top-16">
+            <Image src="/Bug Juice copy.png" alt="" height={150} width={210} className="z-10 " />
+          </div>
           <MyToDos />
         </div >
       ) : (

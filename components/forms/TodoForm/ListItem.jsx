@@ -12,7 +12,6 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
   });
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-    visibility: "hidden"
   } : undefined;
 
 

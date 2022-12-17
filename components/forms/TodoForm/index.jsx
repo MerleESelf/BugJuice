@@ -35,7 +35,6 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
         return (
           <form
             onSubmit={() => {
-              // e.preventDefault();
               handleFormikSubmit();
             }}
           >

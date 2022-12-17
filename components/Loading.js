@@ -1,8 +1,8 @@
 import Image from "next/image"
 export const Loading = () => {
   return (
-    <div className="flex flex-col items-center">
-      <Image src="/Bug Juice copy 2.png" height={500} width={500} className="absolute z-20 animate-pulse" alt="" />
+    <div className="absolute flex flex-col items-center w-full h-full">
+      <Image src="/Bug Juice copy 2.png" height={500} width={500} className="z-20 animate-pulse" alt="" />
     </div>
   )
 }

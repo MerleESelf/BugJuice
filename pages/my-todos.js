@@ -242,7 +242,7 @@ const MyToDos = () => {
               handleDelete={handleDelete}
             />
           </div>
-          <DragOverlay>
+          <DragOverlay dropAnimation={null}>
             {activeId ? (
               <ListItemOverlay todo={activeTodo} />
             ) : null}

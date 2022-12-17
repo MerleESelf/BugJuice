@@ -4,4 +4,4 @@ import { ToDo } from "./todo";
 User.hasMany(ToDo);
 ToDo.belongsTo(User);
 
-export default { User, ToDo };
+export { User, ToDo };

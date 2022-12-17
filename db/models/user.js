@@ -14,7 +14,7 @@ export const User = db.define(
     },
     githubId: {
       type: DataTypes.STRING,
-      allowNull: false, // If you add any other kind of signin provider, remove this line
+      allowNull: false,
       unique: true,
     },
     avatar: {
