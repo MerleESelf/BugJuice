@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import * as pg from 'pg';
 
 const config = {
   host: process.env.HOST,
@@ -15,6 +16,7 @@ const prod_config = {
   username: process.env.PROD_USER,
   password: process.env.PROD_PASSWORD,
   dialect: "postgres",
+  dialectModule: pg,
   port: process.env.PROD_PORT,
   logging: false,
 };
