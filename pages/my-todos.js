@@ -6,7 +6,8 @@ import { ListItemOverlay } from "../components/ListItemOverlay";
 import { Modal } from "../components/Modal";
 import { Loading } from "../components/Loading"
 import { Error } from "../components/Error"
-import { DndContext, MouseSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
+import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
+import { data } from "autoprefixer";
 
 const MyToDos = () => {
   const { user } = useAuthUserContext();
@@ -169,8 +170,15 @@ const MyToDos = () => {
       distance: 10,
     }
   })
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 250,
+      tolerance: 5,
+    },
+  });
   const sensors = useSensors(
-    mouseSensor
+    mouseSensor,
+    touchSensor,
   )
   const handleDragStart = (event) => {
     const { active } = event
@@ -179,8 +187,7 @@ const MyToDos = () => {
   }
   const handleDragEnd = (event) => {
     const { active, over } = event;
-    if (over && over.data.current.accepts.includes(active.data.current.type)) {
-      console.log('ass')
+    if (over && over.data.current.accepts.includes(active.data.current.type) && over.id != active.data.current.todo.status) {
       handleDroppedStatusChange(active.data.current.todo, over.id)
       setActiveId(null)
       setActiveTodo(null)
@@ -247,18 +254,20 @@ const MyToDos = () => {
           <Modal isOpen={isAddTodoModalOpen}>
             <div className="flex items-center justify-between">
               <div className="text-2xl">Add Task:</div>
-              <button className="btn btn-sm btn-ghost" onClick={() => { setIsAddTodoModalOpen(false), setEditTodoId(""); }}>
+              <button className="btn btn-sm btn-ghost" onClick={() => setIsAddTodoModalOpen(false)}>
                 x
               </button>
             </div>
-            <div className="w-full">
-              <TodoForm handleSubmit={handleAddTodoSubmit} />
-            </div>
+            {isAddTodoModalOpen ? (
+              <div className="w-full">
+                <TodoForm handleSubmit={handleAddTodoSubmit} />
+              </div>
+            ) : null}
           </Modal>
           <Modal isOpen={isEditTodoModalOpen}>
             <div className="flex items-center justify-between">
               <div className="text-2xl">Edit Task:</div>
-              <button className="btn btn-ghost" onClick={() => setIsEditTodoModalOpen(false)}>
+              <button className="btn btn-ghost" onClick={() => { setIsEditTodoModalOpen(false), setEditTodoId("") }}>
                 x
               </button>
             </div>

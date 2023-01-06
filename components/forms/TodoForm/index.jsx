@@ -21,7 +21,14 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
 
   return (
     <Formik
-      onSubmit={handleSubmit}
+      onSubmit={async (values, formikHelpers) => {
+        try {
+          await handleSubmit(values)
+          formikHelpers.resetForm()
+        } catch (error) {
+          console.log('[FORM ERROR]: Error in form submit', error)
+        }
+      }}
       initialValues={initialValues}
       validationSchema={TodoSchema}
     >
@@ -34,9 +41,7 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
       }) => {
         return (
           <form
-            onSubmit={() => {
-              handleFormikSubmit();
-            }}
+            onSubmit={handleFormikSubmit}
           >
             <div className="form-control">
               <label className="label" htmlFor="todoname">
@@ -154,7 +159,6 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
           </form>
         )
       }
-
       }
     </Formik>
   );
