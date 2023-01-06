@@ -13,7 +13,6 @@ export const List = ({ todos, status, handleEditTodo, handleDelete }) => {
     transform: isOver ? "scale(1.1)" : undefined,
   };
   const total = todos.length
-  console.log(total)
   return (
     <div className="flex flex-col items-center text-center w-full h-full max-h-[650px] pb-6 space-y-6 overflow-x-hidden overscroll-y-auto card" ref={setNodeRef}>
 
