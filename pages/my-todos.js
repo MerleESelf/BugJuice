@@ -43,10 +43,6 @@ const MyToDos = () => {
     setIsEditTodoModalOpen(true);
   };
 
-  const handleCloseEditModal = () => {
-    setEditTodoId("");
-    setIsEditTodoModalOpen(false);
-  };
 
   const handleAddTodoSubmit = async (todoValues) => {
     setIsLoading(true)
@@ -184,6 +180,7 @@ const MyToDos = () => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (over && over.data.current.accepts.includes(active.data.current.type)) {
+      console.log('ass')
       handleDroppedStatusChange(active.data.current.todo, over.id)
       setActiveId(null)
       setActiveTodo(null)
@@ -196,12 +193,12 @@ const MyToDos = () => {
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-row-reverse ">
         <button
-          className="w-1/3 m-5 btn btn-ghost modal-button"
+          className="w-1/6 m-5 btn btn-ghost modal-button"
           onClick={() => setIsAddTodoModalOpen(true)}
         >
-          ADD TO-DO
+          ADD TASK
         </button>
       </div>
       <div className="h-4/5">
@@ -249,9 +246,9 @@ const MyToDos = () => {
           </DragOverlay>
           <Modal isOpen={isAddTodoModalOpen}>
             <div className="flex items-center justify-between">
-              <div className="text-2xl">Add Todo:</div>
-              <button className="btn" onClick={() => setIsAddTodoModalOpen(false)}>
-                X
+              <div className="text-2xl">Add Task:</div>
+              <button className="btn btn-sm btn-ghost" onClick={() => { setIsAddTodoModalOpen(false), setEditTodoId(""); }}>
+                x
               </button>
             </div>
             <div className="w-full">
@@ -260,9 +257,9 @@ const MyToDos = () => {
           </Modal>
           <Modal isOpen={isEditTodoModalOpen}>
             <div className="flex items-center justify-between">
-              <div className="text-2xl">Edit to-do:</div>
-              <button className="btn" onClick={handleCloseEditModal}>
-                X
+              <div className="text-2xl">Edit Task:</div>
+              <button className="btn btn-ghost" onClick={() => setIsEditTodoModalOpen(false)}>
+                x
               </button>
             </div>
             <div className="w-full">

@@ -11,7 +11,7 @@ export default function Home() {
   useAuth();
   const { user, logOut } = useAuthUserContext();
   return (
-    <div >
+    <div className="flex flex-col justify-between" >
       <Head>
         <title>Bug Juice </title>
         <meta
@@ -22,9 +22,9 @@ export default function Home() {
       </Head>
       {user ? (
         <div className="relative flex flex-col justify-between">
-          <NavBar logOut={logOut} />
-          <div className="absolute top-16">
-            <Image src="/Bug Juice copy.png" alt="" height={150} width={210} className="z-10 " />
+          <NavBar userImg={user.avatar} logOut={logOut} />
+          <div className="absolute top-12">
+            <Image src="/Bug Juice copy.png" alt="" height={140} width={210} className="z-10 " />
           </div>
           <MyToDos />
         </div >

@@ -1,12 +1,9 @@
 import { db } from "../../db";
-// import { useAuthUserContext } from "../../components/AuthUserContextProvider";
-// import { supabaseClient } from "../../lib/supabase";
 
 
 export default async function handler(req, res) {
   const { method, body } = req;
-  // const {user} = useAuthUserContext(); 
-  // const { user } = supabaseClient.auth.session()
+
   if (method === "GET") {
 
     try {

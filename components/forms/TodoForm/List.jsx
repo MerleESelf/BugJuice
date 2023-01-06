@@ -13,7 +13,7 @@ export const List = ({ todos, status, handleEditTodo, handleDelete }) => {
     transform: isOver ? "scale(1.1)" : undefined,
   };
   return (
-    <div className="flex flex-col items-center w-full h-full pb-6 space-y-6 overflow-auto card" ref={setNodeRef}>
+    <div className="flex flex-col items-center w-full h-full max-h-[650px] pb-6 space-y-6 overflow-x-hidden overscroll-y-auto card" ref={setNodeRef}>
       <div className="sticky top-0 z-10 w-full mt-3 text-2xl text-center bg-base-300" style={style}>{status}</div>
       {
         todos.map((todo) => (

@@ -148,7 +148,7 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
               </select>
               {Boolean(errors.priority) && touched.priority && errors.priority}
             </div>
-            <button className="mt-4 btn btn-success" type="submit">
+            <button className="mt-4 btn btn-secondary btn-sm" type="submit">
               Submit
             </button>
           </form>

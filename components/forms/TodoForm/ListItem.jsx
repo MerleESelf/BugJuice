@@ -12,6 +12,8 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
   });
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+    visibility: "hidden"
+
   } : undefined;
 
 
@@ -28,15 +30,15 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
           <span>{todo.todoname} </span>
           <p>Complete by: {todo.due}</p>
         </div>
-        <div className="space-x-2 grid-col-2 ">
+        <div className="flex justify-start flex-row-wrap">
           <button
-            className="btn btn-xs btn-primary"
+            className="mx-1 btn btn-xs btn-primary"
             onClick={handleEditTodo(todo.id)}
           >
             Edit
           </button>
           <button
-            className="btn btn-xs btn-secondary "
+            className="mx-1 btn btn-xs btn-secondary "
             onClick={() => handleDelete(todo.id)}
           >
             Delete
