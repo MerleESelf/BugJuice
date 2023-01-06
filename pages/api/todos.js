@@ -1,16 +1,16 @@
 import { db } from "../../db";
 // import { useAuthUserContext } from "../../components/AuthUserContextProvider";
-import { supabaseClient } from "../../lib/supabase";
+// import { supabaseClient } from "../../lib/supabase";
 
 
 export default async function handler(req, res) {
   const { method, body } = req;
   // const {user} = useAuthUserContext(); 
-  const { user } = supabaseClient.auth.session()
+  // const { user } = supabaseClient.auth.session()
   if (method === "GET") {
 
     try {
-      const allToDos = await db.models.todo.findAll({ where: user.userId })
+      const allToDos = await db.models.todo.findAll()
       res.status(200).send(allToDos);
     } catch (error) {
       console.error("Unable to connect to the database:", error);
