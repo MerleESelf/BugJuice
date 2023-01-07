@@ -1,43 +1,43 @@
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { supabaseClient } from "../lib/supabase";
+import { useSupabaseClient, useSession, useUser } from '@supabase/auth-helpers-react'
 import { Loading } from "./Loading";
 
 const AuthUserContext = createContext(null);
 
 export const AuthUserContextProvider = ({ children }) => {
   const router = useRouter();
-  const [session, setSession] = useState(supabaseClient.auth.session());
-  const [user, setUser] = useState(null);
+  const supabaseClient = useSupabaseClient()
+
+  // use this user to query our db for bug-juice user
+  const supabaseUser = useUser()
+
+  // this user is passed down via this context to app, this is not the supabase user
+  // this is our db user ??maybe we dont need??
+  const [user, setUser] = useState(null)
+  const session = useSession()
   const [isNewUser, setIsNewUser] = useState(false);
 
   const [isFetchingUser, setIsFetchingUser] = useState(true);
 
-  useEffect(() => {
-    if (!session) {
-      router.push("/login");
-    }
-  }, [router, session]);
 
   useEffect(() => {
-    supabaseClient.auth.onAuthStateChange((_event, session) => {
-      switch (_event) {
+    supabaseClient.auth.onAuthStateChange((event) => {
+      switch (event) {
         case "SIGNED_IN": {
-          setSession(session);
           router.push("/");
           break;
         }
         case "SIGNED_OUT": {
-          setSession(null);
           router.push("/login");
           break;
         }
         default:
-          throw new Error(`Invalid _event: ${_event}`);
+          throw new Error(`Invalid _event: ${event}`);
       }
     });
-  }, [router, session]);
+  }, [router, supabaseClient.auth]);
 
   useEffect(() => {
     if (user) {
@@ -51,6 +51,7 @@ export const AuthUserContextProvider = ({ children }) => {
         const body = {
           user: session?.user,
         };
+        // find or create user in our db
         const response = await fetch("/api/users", {
           method: "POST",
           body: JSON.stringify(body),
@@ -70,14 +71,14 @@ export const AuthUserContextProvider = ({ children }) => {
     }
 
     if (session) {
+      // if there is a session, we want to get user from db
       fetchUser();
     }
   }, [session]);
 
   const logOut = async () => {
     try {
-      setUser(null);
-      setSession(null);
+      await supabaseClient.auth.signOut()
     } catch (error) {
       console.log("ERROR SIGNING OUT: ", error);
     }
@@ -85,11 +86,8 @@ export const AuthUserContextProvider = ({ children }) => {
 
   const contextValue = {
     logOut,
-    session,
-    setSession,
-    user,
-    setUser,
     isNewUser,
+    user,
   };
   return (
     <AuthUserContext.Provider value={contextValue}>

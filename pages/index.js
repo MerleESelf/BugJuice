@@ -4,11 +4,9 @@ import Link from "next/link";
 import MyToDos from "./my-todos";
 import NavBar from "../components/Navbar";
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
-import { useAuth } from "../hooks/useAuth";
 import Footer from "../components/Footer";
 
 export default function Home() {
-  useAuth();
   const { user, logOut } = useAuthUserContext();
   return (
     <div className="flex flex-col justify-between" >
@@ -22,7 +20,7 @@ export default function Home() {
       </Head>
       {user ? (
         <div className="relative flex flex-col justify-between">
-          <NavBar userImg={user.avatar} logOut={logOut} />
+          <NavBar userImg={user?.avatar} logOut={logOut} />
           <div className="absolute top-12">
             <Image src="/Bug Juice copy.png" alt="" height={140} width={210} className="z-10 " />
           </div>
