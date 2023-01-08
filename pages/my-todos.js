@@ -1,13 +1,13 @@
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import { useEffect, useState, useCallback } from "react";
 import { TodoForm } from "../components/forms/TodoForm/";
-import { List } from "../components/forms/TodoForm/List";
+import { List } from "../components/List";
 import { ListItemOverlay } from "../components/ListItemOverlay";
 import { Modal } from "../components/Modal";
 import { Loading } from "../components/Loading"
 import { Error } from "../components/Error"
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
-import { data } from "autoprefixer";
+
 
 const MyToDos = () => {
   const { user } = useAuthUserContext();
@@ -19,6 +19,9 @@ const MyToDos = () => {
   const [editTodoId, setEditTodoId] = useState("");
   const [activeId, setActiveId] = useState(null);
   const [activeTodo, setActiveTodo] = useState(null)
+  const [todoCreationSuccessModalOpen, setTodoCreationSuccessModalOpen] = useState(false)
+  const [todoEditSuccessModalOpen, setTodoEditSuccessModalOpen] = useState(false)
+  const [todoDeletionSuccessModalOpen, setTodoDeletionSuccessModalOpen] = useState(false)
 
   const getToDos = useCallback(async () => {
     setIsLoading(true);
@@ -64,6 +67,7 @@ const MyToDos = () => {
       await getToDos()
       setIsLoading(false)
       setIsAddTodoModalOpen(false)
+      setTodoCreationSuccessModalOpen(true)
 
     } catch (err) {
       console.log("[ADD TODO ERROR]: ", err);
@@ -91,6 +95,7 @@ const MyToDos = () => {
       await getToDos()
       setIsEditTodoModalOpen(false)
       setIsLoading(false)
+      setTodoEditSuccessModalOpen(true)
     } catch (err) {
       console.log("[EDIT TODO ERROR]: ", err);
       setIsError(true)
@@ -135,6 +140,7 @@ const MyToDos = () => {
       });
       await getToDos()
       setIsLoading(false)
+      setTodoDeletionSuccessModalOpen(true)
     } catch (error) {
       console.log('Todo Delete Error', error)
       setIsError(true)
@@ -198,6 +204,33 @@ const MyToDos = () => {
     return <Error />;
   }
 
+  const todoRowDefaultProps = {
+    handleEditTodo,
+    handleDelete
+  }
+  const todoRowProps = [
+    {
+      todos: future,
+      status: 'Future',
+      ...todoRowDefaultProps
+    },
+    {
+      todos: needsAttention,
+      status: 'Needs Attention',
+      ...todoRowDefaultProps
+    },
+    {
+      todos: inProgress,
+      status: 'In Progress',
+      ...todoRowDefaultProps
+    },
+    {
+      todos: done,
+      status: 'Done',
+      ...todoRowDefaultProps
+    }
+  ]
+
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
       <div className="flex flex-row-reverse ">
@@ -213,39 +246,17 @@ const MyToDos = () => {
           <Loading />
           : null
         }
-        <div className="grid h-full grid-cols-4 gap-4">
-          <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
-            <List
-              todos={future}
-              handleEditTodo={handleEditTodo}
-              handleDelete={handleDelete}
-              status="Future"
-            />
-          </div>
-          <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
-            <List
-              todos={needsAttention}
-              status="Needs Attention"
-              handleEditTodo={handleEditTodo}
-              handleDelete={handleDelete}
-            />
-          </div>
-          <div className="flex-grow col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center">
-            <List
-              todos={inProgress}
-              status="In Progress"
-              handleEditTodo={handleEditTodo}
-              handleDelete={handleDelete}
-            />
-          </div>
-          <div className="flex-grow col-span-1 my-4 mr-4 shadow-lg card bg-base-300 rounded-box place-items-center">
-            <List
-              todos={done}
-              status="Done"
-              handleEditTodo={handleEditTodo}
-              handleDelete={handleDelete}
-            />
-          </div>
+        <div className="box-border grid h-full grid-cols-1 lg:grid-cols-4 lg:gap-4">
+          {todoRowProps.map(({ status, todos }) => (
+            <div className="flex-grow w-full col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center" key={status}>
+              <List
+                todos={todos}
+                handleEditTodo={handleEditTodo}
+                handleDelete={handleDelete}
+                status={status}
+              />
+            </div>
+          ))}
           <DragOverlay dropAnimation={null}>
             {activeId ? (
               <ListItemOverlay todo={activeTodo} />
@@ -284,6 +295,32 @@ const MyToDos = () => {
               )}
             </div>
           </Modal>
+
+          <Modal isOpen={todoCreationSuccessModalOpen}>
+            <div className="flex items-center justify-between">
+              <div className="text-2xl">Task Creation Successful!</div>
+              <button className="btn btn-sm btn-ghost" onClick={() => setTodoCreationSuccessModalOpen(false)}>
+                x
+              </button>
+            </div>
+          </Modal>
+          <Modal isOpen={todoEditSuccessModalOpen}>
+            <div className="flex items-center justify-between">
+              <div className="text-2xl">Task Edits Successful!</div>
+              <button className="btn btn-sm btn-ghost" onClick={() => setTodoEditSuccessModalOpen(false)}>
+                x
+              </button>
+            </div>
+          </Modal>
+          <Modal isOpen={todoDeletionSuccessModalOpen}>
+            <div className="flex items-center justify-between">
+              <div className="text-2xl">Task Deletion Successful!</div>
+              <button className="btn btn-sm btn-ghost" onClick={() => setTodoDeletionSuccessModalOpen(false)}>
+                x
+              </button>
+            </div>
+          </Modal>
+
         </div >
       </div>
     </DndContext >

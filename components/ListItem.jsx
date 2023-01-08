@@ -25,7 +25,7 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
       {...attributes}
     >
       <span className="mt-2 indicator-item indicator-center badge badge-outline">{todo.priority}</span>
-      <div className="w-3/4 p-4 shadow-xl card bg-base-100">
+      <div className="p-4 shadow-xl w-96 lg:w-3/4 card bg-base-100">
         <div className="my-2">
           <span>{todo.todoname} </span>
           <p>Complete by: {todo.due}</p>

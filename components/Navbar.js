@@ -5,7 +5,7 @@ const NavBar = (props) => {
 
   return (
     <div>
-      <nav className="flex shadow-xl navbar place-content-between bg-base-100">
+      <nav className="flex w-screen shadow-xl navbar place-content-between bg-base-100">
         <Image className="flex-none" height={60} width={60} src="/2.png" alt="" />
         <p className="flex-grow text-4xl normal-case">Bug Juice</p>
         <div className="flex flex-col avatar">
