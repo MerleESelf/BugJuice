@@ -21,7 +21,6 @@ export const AuthUserContextProvider = ({ children }) => {
 
   const [isFetchingUser, setIsFetchingUser] = useState(true)
 
-  console.log(router)
   useEffect(() => {
     const url = router.asPath
     if (!url.includes('access_token') && !session) {
@@ -37,12 +36,8 @@ export const AuthUserContextProvider = ({ children }) => {
           router.push("/");
           break;
         }
-        case "SIGNED_OUT": {
-          router.push("/login");
-          break;
-        }
         default:
-          throw new Error(`Invalid _event: ${event}`);
+          return
       }
     });
   }, [router, supabaseClient.auth]);
