@@ -1,14 +1,19 @@
 import { db } from "../../db";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 
 export default async function handler(req, res) {
+  const supabaseServerClient = createServerSupabaseClient({ req, res })
   const { method, body } = req;
 
   if (method === "GET") {
+    const {
+      data: { user }
+    } = await supabaseServerClient.auth.getUser()
 
     try {
-      const allToDos = await db.models.todo.findAll()
-      res.status(200).send(allToDos);
+      const todos = await db.models.todo.findAll({ where: { userId: user.id } })
+      res.status(200).send(todos);
     } catch (error) {
       console.error("Unable to connect to the database:", error);
     }

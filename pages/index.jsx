@@ -1,13 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import MyToDos from "../components/MyTodos";
 import NavBar from "../components/Navbar";
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import Footer from "../components/Footer";
 import { Loading } from "../components/Loading";
+import { useSession } from '@supabase/auth-helpers-react'
+
 export default function Home() {
-  const { user, logOut } = useAuthUserContext();
+  const session = useSession()
+  const { logOut } = useAuthUserContext();
   return (
     <>
       <Head>
@@ -18,9 +20,9 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {user ? (
+      {session ? (
         <div className="relative flex flex-col h-full overflow-y-scroll">
-          <NavBar userImg={user?.avatar} logOut={logOut} />
+          <NavBar logOut={logOut} />
           <div className="absolute top-12">
             <Image src="/Bug Juice copy.png" alt="" height={140} width={210} className="z-10 " />
           </div>

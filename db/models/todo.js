@@ -17,6 +17,11 @@ export const ToDo = db.define(
     },
     priority: {
       type: DataTypes.ENUM('High', 'Moderate', 'Low')
+    },
+    // Third-Party (currently GitHub only) user.id
+    userId: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }
 );

@@ -7,10 +7,10 @@ import { Modal } from "./Modal";
 import { Loading } from "./Loading"
 import { Error } from "./Error"
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
-
+import { useSession } from '@supabase/auth-helpers-react'
 
 const MyToDos = () => {
-  const { user } = useAuthUserContext();
+  const session = useSession()
   const [todos, setToDos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -57,7 +57,7 @@ const MyToDos = () => {
         due: todoValues.due,
         status: todoValues.status,
         priority: todoValues.priority,
-        userId: user.id
+        userId: session.user.id // TODO: this is now the github user.id (available via session)
       };
       await fetch("/api/todos", {
         method: "POST",
