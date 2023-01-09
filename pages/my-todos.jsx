@@ -1,6 +1,6 @@
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import { useEffect, useState, useCallback } from "react";
-import { TodoForm } from "../components/forms/TodoForm/";
+import { TodoForm } from "../components/forms/TodoForm";
 import { List } from "../components/List";
 import { ListItemOverlay } from "../components/ListItemOverlay";
 import { Modal } from "../components/Modal";
