@@ -1,11 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import MyToDos from "./my-todos";
+import MyToDos from "../components/MyTodos";
 import NavBar from "../components/Navbar";
 import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import Footer from "../components/Footer";
-
+import { Loading } from "../components/Loading";
 export default function Home() {
   const { user, logOut } = useAuthUserContext();
   return (
@@ -26,14 +26,11 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-between flex-grow">
             <MyToDos />
-
             <Footer />
           </div>
         </div >
       ) : (
-        <Link href="/login">
-          <button className="logo">LOGIN</button>
-        </Link>
+        <Loading />
       )
       }
     </>

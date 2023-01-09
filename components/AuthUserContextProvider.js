@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSupabaseClient, useSession, useUser } from '@supabase/auth-helpers-react'
@@ -11,7 +11,7 @@ export const AuthUserContextProvider = ({ children }) => {
   const supabaseClient = useSupabaseClient()
 
   // use this user to query our db for bug-juice user
-  const supabaseUser = useUser()
+  // const supabaseUser = useUser()
 
   // this user is passed down via this context to app, this is not the supabase user
   // this is our db user ??maybe we dont need??
@@ -19,7 +19,15 @@ export const AuthUserContextProvider = ({ children }) => {
   const session = useSession()
   const [isNewUser, setIsNewUser] = useState(false);
 
-  const [isFetchingUser, setIsFetchingUser] = useState(true);
+  const [isFetchingUser, setIsFetchingUser] = useState(true)
+
+  console.log(router)
+  useEffect(() => {
+    const url = router.asPath
+    if (!url.includes('access_token') && !session) {
+      router.push('/login')
+    }
+  }, [session, router])
 
 
   useEffect(() => {
@@ -91,7 +99,8 @@ export const AuthUserContextProvider = ({ children }) => {
   };
   return (
     <AuthUserContext.Provider value={contextValue}>
-      {isFetchingUser ? <div className="flex flex-col items-center content-center w-full h-full"> <Loading /> </div> : children}
+      {/* {isFetchingUser ? <div className="flex flex-col items-center content-center w-full h-full"> <Loading /> </div> : children} */}
+      {children}
     </AuthUserContext.Provider>
   );
 };

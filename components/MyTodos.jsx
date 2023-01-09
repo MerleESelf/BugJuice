@@ -1,11 +1,11 @@
-import { useAuthUserContext } from "../components/AuthUserContextProvider";
+import { useAuthUserContext } from "./AuthUserContextProvider";
 import { useEffect, useState, useCallback } from "react";
-import { TodoForm } from "../components/forms/TodoForm";
-import { List } from "../components/List";
-import { ListItemOverlay } from "../components/ListItemOverlay";
-import { Modal } from "../components/Modal";
-import { Loading } from "../components/Loading"
-import { Error } from "../components/Error"
+import { TodoForm } from "./forms/TodoForm";
+import { List } from "./List";
+import { ListItemOverlay } from "./ListItemOverlay";
+import { Modal } from "./Modal";
+import { Loading } from "./Loading"
+import { Error } from "./Error"
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
 
 
