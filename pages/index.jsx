@@ -2,14 +2,12 @@ import Head from "next/head";
 import Image from "next/image";
 import MyToDos from "../components/MyTodos";
 import NavBar from "../components/Navbar";
-import { useAuthUserContext } from "../components/AuthUserContextProvider";
 import Footer from "../components/Footer";
 import { Loading } from "../components/Loading";
 import { useSession } from '@supabase/auth-helpers-react'
 
 export default function Home() {
   const session = useSession()
-  const { logOut } = useAuthUserContext();
   return (
     <>
       <Head>
@@ -22,7 +20,7 @@ export default function Home() {
       </Head>
       {session ? (
         <div className="relative flex flex-col h-full overflow-y-scroll">
-          <NavBar logOut={logOut} />
+          <NavBar />
           <div className="absolute top-12">
             <Image src="/Bug Juice copy.png" alt="" height={140} width={210} className="z-10 " />
           </div>

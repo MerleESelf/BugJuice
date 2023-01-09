@@ -26,6 +26,7 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
           await handleSubmit(values)
           formikHelpers.resetForm()
         } catch (error) {
+          // TODO: what to do here?
           console.log('[FORM ERROR]: Error in form submit', error)
         }
       }}

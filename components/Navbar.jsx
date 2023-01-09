@@ -1,7 +1,20 @@
 import Image from "next/image";
 import PropTypes from "prop-types";
-const NavBar = (props) => {
-  const { logOut, userImg } = props
+import { useRouter } from "next/router";
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+
+const NavBar = () => {
+  const supabaseClient = useSupabaseClient()
+  const router = useRouter()
+  const logOut = async () => {
+    try {
+      await supabaseClient.auth.signOut()
+      router.push("/login")
+    } catch (error) {
+      // TODO: what do here?
+      console.log("ERROR SIGNING OUT: ", error);
+    }
+  };
 
   return (
     <div>

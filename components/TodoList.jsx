@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { ListItem } from "./ListItem";
+import { TodoListItem } from "./TodoListItem";
 import { useDroppable } from "@dnd-kit/core";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
@@ -17,7 +17,7 @@ function useWindowSize() {
 }
 
 
-export const ListMobile = ({ todos, status, handleEditTodo, handleDelete }) => {
+export const TodoListMobile = ({ todos, status, handleEditTodo, handleDelete }) => {
   const { isOver, setNodeRef } = useDroppable({
     id: `${status}`,
     data: {
@@ -36,7 +36,7 @@ export const ListMobile = ({ todos, status, handleEditTodo, handleDelete }) => {
       <div className="flex flex-row justify-start space-x-2 overflow-x-scroll overflow-y-clip">
         {
           todos.map((todo) => (
-            <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
+            <TodoListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
           ))
         }
       </div>
@@ -45,7 +45,7 @@ export const ListMobile = ({ todos, status, handleEditTodo, handleDelete }) => {
   );
 };
 
-export const ListDeskop = ({ todos, status, handleEditTodo, handleDelete, height }) => {
+export const TodoListDesktop = ({ todos, status, handleEditTodo, handleDelete }) => {
   const { isOver, setNodeRef } = useDroppable({
     id: `${status}`,
     data: {
@@ -64,7 +64,7 @@ export const ListDeskop = ({ todos, status, handleEditTodo, handleDelete, height
       <div className="overflow-y-scroll overflow-x-clip">
         {
           todos.map((todo) => (
-            <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
+            <TodoListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
           ))
         }
       </div>
@@ -73,17 +73,16 @@ export const ListDeskop = ({ todos, status, handleEditTodo, handleDelete, height
   );
 };
 
-export const List = (props) => {
-  const [width, height] = useWindowSize()
-
+export const TodoList = (props) => {
+  const [width] = useWindowSize()
   return (
     <>
-      {width > 1024 ? <ListDeskop {...props} height={height} /> : <ListMobile {...props} />}
+      {width > 1024 ? <TodoListDesktop {...props} /> : <TodoListMobile {...props} />}
     </>
   );
 };
 
-List.propTypes = {
+TodoList.propTypes = {
   todos: PropTypes.arrayOf(PropTypes.object),
   status: PropTypes.string,
   handleEditTodo: PropTypes.func,

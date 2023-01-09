@@ -1,10 +1,11 @@
 import React from "react";
-import { useRouter } from "next/router";
-import { supabaseClient } from "../lib/supabase";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export const GithubSignIn = () => {
-  const router = useRouter();
+  const supabaseClient = useSupabaseClient()
+
   async function handleOAuthLogin() {
+    // TODO: add try / catch here
     let { error } = await supabaseClient.auth.signInWithOAuth({
       provider: "github",
       options: {
@@ -12,19 +13,12 @@ export const GithubSignIn = () => {
       }
     });
     if (error) console.log("Error: ", error.message);
-    else {
-      router.push("/");
-    }
   }
 
 
   return (
-    <div
-      className="flex flex-col text-4xl"
-    >
-      <button onClick={handleOAuthLogin}
-        className="m-5 btn btn-ghost"
-      >
+    <div className="flex flex-col text-4xl">
+      <button onClick={handleOAuthLogin} className="m-5 btn btn-ghost">
         Sign In With GitHub
       </button>
     </div>
