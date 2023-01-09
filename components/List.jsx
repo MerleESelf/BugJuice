@@ -57,15 +57,17 @@ export const ListDeskop = ({ todos, status, handleEditTodo, handleDelete, height
   };
   const total = todos.length
   return (
-    <div className="flex flex-col items-center flex-grow w-full pb-6 space-y-6 text-center card overflow-x-clip" ref={setNodeRef}>
-      < div className="sticky top-0 z-10 w-full mt-3 text-2xl bg-base-300 " style={style}>
+    <div className="flex flex-col items-center w-full pb-6 space-y-6 text-center card max-h-[700px] overflow-x-clip" ref={setNodeRef}>
+      <div className="sticky top-0 z-10 w-full mt-3 text-2xl bg-base-300 " style={style}>
         <span >{status} {total ? <span className="mt-2 badge badge-lg badge-outline ">{total}</span> : null} </span>
       </div>
-      {
-        todos.map((todo) => (
-          <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
-        ))
-      }
+      <div className="overflow-y-scroll overflow-x-clip">
+        {
+          todos.map((todo) => (
+            <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
+          ))
+        }
+      </div>
     </div >
 
   );

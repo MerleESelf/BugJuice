@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 export default function Home() {
   const { user, logOut } = useAuthUserContext();
   return (
-    <div className="max-h-screen">
+    <>
       <Head>
         <title>Bug Juice </title>
         <meta
@@ -36,6 +36,6 @@ export default function Home() {
         </Link>
       )
       }
-    </div >
+    </>
   );
 }
