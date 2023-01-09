@@ -233,7 +233,7 @@ const MyToDos = () => {
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
-      <div className="flex flex-row-reverse ">
+      <div className="flex flex-row-reverse h-28">
         <button
           className="w-1/6 m-5 btn btn-ghost modal-button"
           onClick={() => setIsAddTodoModalOpen(true)}
@@ -241,87 +241,85 @@ const MyToDos = () => {
           ADD TASK
         </button>
       </div>
-      <div className="h-4/5">
-        {isLoading ?
-          <Loading />
-          : null
-        }
-        <div className="box-border grid h-full grid-cols-1 lg:grid-cols-4 lg:gap-4">
-          {todoRowProps.map(({ status, todos }) => (
-            <div className="flex-grow w-full col-span-1 my-4 shadow-lg card bg-base-300 rounded-box place-items-center" key={status}>
-              <List
-                todos={todos}
-                handleEditTodo={handleEditTodo}
-                handleDelete={handleDelete}
-                status={status}
-              />
-            </div>
-          ))}
-          <DragOverlay dropAnimation={null}>
-            {activeId ? (
-              <ListItemOverlay todo={activeTodo} />
-            ) : null}
-          </DragOverlay>
-          <Modal isOpen={isAddTodoModalOpen}>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl">Add Task:</div>
-              <button className="btn btn-sm btn-ghost" onClick={() => setIsAddTodoModalOpen(false)}>
-                x
-              </button>
-            </div>
-            {isAddTodoModalOpen ? (
-              <div className="w-full">
-                <TodoForm handleSubmit={handleAddTodoSubmit} />
-              </div>
-            ) : null}
-          </Modal>
-          <Modal isOpen={isEditTodoModalOpen}>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl">Edit Task:</div>
-              <button className="btn btn-ghost" onClick={() => { setIsEditTodoModalOpen(false), setEditTodoId("") }}>
-                x
-              </button>
-            </div>
+      {isLoading ?
+        <Loading />
+        : null
+      }
+      <div className="flex flex-col flex-grow grid-cols-1 px-4 py-10 lg:flex-row lg:grid-cols-4 lg:gap-4">
+        {todoRowProps.map(({ status, todos }) => (
+          <div className="w-full col-span-1 shadow-lg card bg-base-300 rounded-box place-items-center" key={status}>
+            <List
+              todos={todos}
+              handleEditTodo={handleEditTodo}
+              handleDelete={handleDelete}
+              status={status}
+            />
+          </div>
+        ))}
+        <DragOverlay dropAnimation={null}>
+          {activeId ? (
+            <ListItemOverlay todo={activeTodo} />
+          ) : null}
+        </DragOverlay>
+        <Modal isOpen={isAddTodoModalOpen}>
+          <div className="flex items-center justify-between">
+            <div className="text-2xl">Add Task:</div>
+            <button className="btn btn-sm btn-ghost" onClick={() => setIsAddTodoModalOpen(false)}>
+              x
+            </button>
+          </div>
+          {isAddTodoModalOpen ? (
             <div className="w-full">
-              {editTodoId ? (
-                <TodoForm
-                  handleSubmit={handleEditTodoSubmit}
-                  editTodoValues={todos.find((todo) => {
-                    return todo.id === editTodoId;
-                  })}
-                />
-              ) : (
-                <Loading />
-              )}
+              <TodoForm handleSubmit={handleAddTodoSubmit} />
             </div>
-          </Modal>
+          ) : null}
+        </Modal>
+        <Modal isOpen={isEditTodoModalOpen}>
+          <div className="flex items-center justify-between">
+            <div className="text-2xl">Edit Task:</div>
+            <button className="btn btn-ghost" onClick={() => { setIsEditTodoModalOpen(false), setEditTodoId("") }}>
+              x
+            </button>
+          </div>
+          <div className="w-full">
+            {editTodoId ? (
+              <TodoForm
+                handleSubmit={handleEditTodoSubmit}
+                editTodoValues={todos.find((todo) => {
+                  return todo.id === editTodoId;
+                })}
+              />
+            ) : (
+              <Loading />
+            )}
+          </div>
+        </Modal>
 
-          <Modal isOpen={todoCreationSuccessModalOpen}>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl">Task Creation Successful!</div>
-              <button className="btn btn-sm btn-ghost" onClick={() => setTodoCreationSuccessModalOpen(false)}>
-                x
-              </button>
-            </div>
-          </Modal>
-          <Modal isOpen={todoEditSuccessModalOpen}>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl">Task Edits Successful!</div>
-              <button className="btn btn-sm btn-ghost" onClick={() => setTodoEditSuccessModalOpen(false)}>
-                x
-              </button>
-            </div>
-          </Modal>
-          <Modal isOpen={todoDeletionSuccessModalOpen}>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl">Task Deletion Successful!</div>
-              <button className="btn btn-sm btn-ghost" onClick={() => setTodoDeletionSuccessModalOpen(false)}>
-                x
-              </button>
-            </div>
-          </Modal>
+        <Modal isOpen={todoCreationSuccessModalOpen}>
+          <div className="flex items-center justify-between">
+            <div className="text-2xl">Task Creation Successful!</div>
+            <button className="btn btn-sm btn-ghost" onClick={() => setTodoCreationSuccessModalOpen(false)}>
+              x
+            </button>
+          </div>
+        </Modal>
+        <Modal isOpen={todoEditSuccessModalOpen}>
+          <div className="flex items-center justify-between">
+            <div className="text-2xl">Task Edits Successful!</div>
+            <button className="btn btn-sm btn-ghost" onClick={() => setTodoEditSuccessModalOpen(false)}>
+              x
+            </button>
+          </div>
+        </Modal>
+        <Modal isOpen={todoDeletionSuccessModalOpen}>
+          <div className="flex items-center justify-between">
+            <div className="text-2xl">Task Deletion Successful!</div>
+            <button className="btn btn-sm btn-ghost" onClick={() => setTodoDeletionSuccessModalOpen(false)}>
+              x
+            </button>
+          </div>
+        </Modal>
 
-        </div >
       </div>
     </DndContext >
   );

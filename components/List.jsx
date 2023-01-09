@@ -30,10 +30,10 @@ export const ListMobile = ({ todos, status, handleEditTodo, handleDelete }) => {
   const total = todos.length
   return (
     <div className="flex flex-col w-full h-full px-10 pb-6 space-y-6 text-center card" ref={setNodeRef}>
-      <div className="sticky top-0 z-10 w-full mt-3 text-2xl bg-base-300" style={style}>
+      <div className="top-0 z-10 w-full mt-3 text-2xl bg-base-300" style={style}>
         <span >{status} {total ? <span className="mt-2 badge badge-lg badge-outline ">{total}</span> : null} </span>
       </div>
-      <div className="flex flex-row w-full overflow-x-scroll">
+      <div className="flex flex-row w-full space-x-2 overflow-x-scroll">
         {
           todos.map((todo) => (
             <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
@@ -45,7 +45,7 @@ export const ListMobile = ({ todos, status, handleEditTodo, handleDelete }) => {
   );
 };
 
-export const ListDeskop = ({ todos, status, handleEditTodo, handleDelete }) => {
+export const ListDeskop = ({ todos, status, handleEditTodo, handleDelete, height }) => {
   const { isOver, setNodeRef } = useDroppable({
     id: `${status}`,
     data: {
@@ -57,8 +57,8 @@ export const ListDeskop = ({ todos, status, handleEditTodo, handleDelete }) => {
   };
   const total = todos.length
   return (
-    <div className="desktop flex flex-col items-center text-center w-full h-full max-h-[650px] pb-6 space-y-6 card overflow-y-scroll overflow-x-clip" ref={setNodeRef}>
-      <div className="sticky top-0 z-10 w-full mt-3 text-2xl bg-base-300 " style={style}>
+    <div className="flex flex-col items-center flex-grow w-full pb-6 space-y-6 text-center card overflow-x-clip" ref={setNodeRef}>
+      < div className="sticky top-0 z-10 w-full mt-3 text-2xl bg-base-300 " style={style}>
         <span >{status} {total ? <span className="mt-2 badge badge-lg badge-outline ">{total}</span> : null} </span>
       </div>
       {
@@ -72,12 +72,11 @@ export const ListDeskop = ({ todos, status, handleEditTodo, handleDelete }) => {
 };
 
 export const List = (props) => {
-  const [width] = useWindowSize()
+  const [width, height] = useWindowSize()
 
-  console.log(width)
   return (
     <>
-      {width > 1024 ? <ListDeskop {...props} /> : <ListMobile {...props} />}
+      {width > 1024 ? <ListDeskop {...props} height={height} /> : <ListMobile {...props} />}
     </>
   );
 };

@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 export default function Home() {
   const { user, logOut } = useAuthUserContext();
   return (
-    <div className="flex flex-col justify-between" >
+    <div className="max-h-screen">
       <Head>
         <title>Bug Juice </title>
         <meta
@@ -19,19 +19,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {user ? (
-        <div className="relative flex flex-col justify-between">
+        <div className="relative flex flex-col h-full overflow-y-scroll">
           <NavBar userImg={user?.avatar} logOut={logOut} />
           <div className="absolute top-12">
             <Image src="/Bug Juice copy.png" alt="" height={140} width={210} className="z-10 " />
           </div>
-          <MyToDos />
+          <div className="flex flex-col justify-between flex-grow">
+            <MyToDos />
+
+            <Footer />
+          </div>
         </div >
       ) : (
         <Link href="/login">
           <button className="logo">LOGIN</button>
         </Link>
-      )}
-      <Footer />
+      )
+      }
     </div >
   );
 }
