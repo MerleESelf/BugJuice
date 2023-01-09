@@ -18,7 +18,7 @@ export const ListItem = ({ todo, handleEditTodo, handleDelete }) => {
 
 
   return (
-    <div className="flex flex-col items-center w-full py-4"
+    <div className="flex flex-col items-center py-4 lg:w-full"
       ref={setNodeRef}
       style={style}
       {...listeners}

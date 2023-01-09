@@ -247,7 +247,7 @@ const MyToDos = () => {
       }
       <div className="flex flex-col flex-grow grid-cols-1 px-4 py-10 space-y-4 lg:space-y-0 lg:flex-row lg:grid-cols-4 lg:gap-4">
         {todoRowProps.map(({ status, todos }) => (
-          <div className="w-full h-full col-span-1 shadow-lg card bg-base-300 rounded-box place-items-center" key={status}>
+          <div className="w-full h-full col-span-1 shadow-lg card bg-base-300 rounded-box place-items-center lg:overflow-x-clip" key={status}>
             <List
               todos={todos}
               handleEditTodo={handleEditTodo}

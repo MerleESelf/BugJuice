@@ -33,7 +33,7 @@ export const ListMobile = ({ todos, status, handleEditTodo, handleDelete }) => {
       <div className="top-0 z-10 w-full mt-3 text-2xl bg-base-300" style={style}>
         <span >{status} {total ? <span className="mt-2 badge badge-lg badge-outline ">{total}</span> : null} </span>
       </div>
-      <div className="flex flex-row w-full space-x-2 overflow-x-scroll">
+      <div className="flex flex-row justify-start space-x-2 overflow-x-scroll overflow-y-clip">
         {
           todos.map((todo) => (
             <ListItem key={todo.id} todo={todo} handleEditTodo={handleEditTodo} handleDelete={handleDelete} />
