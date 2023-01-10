@@ -13,7 +13,8 @@ function MyAppInner({ Component, pageProps }) {
   useEffect(() => {
     async function getSession() {
       const { data: { session } } = await supabaseClient.auth.getSession()
-      if (session === null) {
+      const currentPathname = router.pathname
+      if (session === null && currentPathname !== '/login') {
         router.push('/login')
       }
     }

@@ -26,7 +26,7 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
           await handleSubmit(values)
           formikHelpers.resetForm()
         } catch (error) {
-          // TODO: what to do here?
+          formikHelpers.setErrors({ submit: 'something went wrong!' })
           console.log('[FORM ERROR]: Error in form submit', error)
         }
       }}
@@ -157,6 +157,7 @@ export const TodoForm = ({ handleSubmit, editTodoValues }) => {
             <button className="mt-4 btn btn-secondary btn-sm" type="submit">
               Submit
             </button>
+            {Boolean(errors.submit) && errors.submit}
           </form>
         )
       }

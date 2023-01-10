@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
-import { TodoForm } from "./forms/TodoForm";
+import { TodoForm } from "./TodoForm";
 import { TodoList } from "./TodoList";
-import { ListItemOverlay } from "./TodoListItemOverlay";
+import { TodoListItemOverlay } from "./TodoListItemOverlay";
 import { Modal } from "./Modal";
 import { Loading } from "./Loading"
 import { Error } from "./Error"
@@ -13,13 +13,14 @@ const MyToDos = () => {
   const [todos, setToDos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+
   const [isAddTodoModalOpen, setIsAddTodoModalOpen] = useState(false);
+
   const [isEditTodoModalOpen, setIsEditTodoModalOpen] = useState(false);
-  const [editTodoId, setEditTodoId] = useState("");
-  const [activeId, setActiveId] = useState(null);
-  const [activeTodo, setActiveTodo] = useState(null)
-  const [todoCreationSuccessModalOpen, setTodoCreationSuccessModalOpen] = useState(false)
   const [todoEditSuccessModalOpen, setTodoEditSuccessModalOpen] = useState(false)
+  const [editTodoId, setEditTodoId] = useState("");
+
+  const [todoCreationSuccessModalOpen, setTodoCreationSuccessModalOpen] = useState(false)
   const [todoDeletionSuccessModalOpen, setTodoDeletionSuccessModalOpen] = useState(false)
 
   const getToDos = useCallback(async () => {
@@ -41,12 +42,7 @@ const MyToDos = () => {
     getToDos();
   }, [getToDos]);
 
-  const handleEditTodo = (todoId) => () => {
-    setEditTodoId(todoId);
-    setIsEditTodoModalOpen(true);
-  };
-
-
+  // Todo CRUD START ********************
   const handleAddTodoSubmit = async (todoValues) => {
     setIsLoading(true)
     setIsError(false)
@@ -56,7 +52,7 @@ const MyToDos = () => {
         due: todoValues.due,
         status: todoValues.status,
         priority: todoValues.priority,
-        userId: session.user.id // TODO: this is now the github user.id (available via session)
+        userId: session.user.id
       };
       await fetch("/api/todos", {
         method: "POST",
@@ -74,6 +70,11 @@ const MyToDos = () => {
       setIsLoading(false)
     }
   }
+
+  const handleEditTodo = (todoId) => () => {
+    setEditTodoId(todoId);
+    setIsEditTodoModalOpen(true);
+  };
 
   const handleEditTodoSubmit = async (todoValues) => {
     setIsLoading(true)
@@ -101,29 +102,7 @@ const MyToDos = () => {
       setIsLoading(false)
     }
   };
-
-  const handleDroppedStatusChange = async (todo, status) => {
-    setIsLoading(true)
-    setIsError(false)
-    try {
-      const body = {
-        id: todo.id,
-        status
-      };
-      await fetch("/api/todos", {
-        method: "PUT",
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json" },
-      })
-      await getToDos()
-      setIsLoading(false)
-    } catch (err) {
-      console.log("[EDIT TODO ERROR]: ", err);
-      setIsError(true)
-      setIsLoading(false)
-    }
-
-  }
+  // Todo CRUD END ********************
 
   const handleDelete = async (id) => {
     setIsLoading(true)
@@ -141,7 +120,7 @@ const MyToDos = () => {
       setIsLoading(false)
       setTodoDeletionSuccessModalOpen(true)
     } catch (error) {
-      console.log('Todo Delete Error', error)
+      console.log('[DELETE TODO ERROR]: ', error)
       setIsError(true)
       setIsLoading(false)
     }
@@ -170,39 +149,6 @@ const MyToDos = () => {
     }
   });
 
-  const mouseSensor = useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 10,
-    }
-  })
-  const touchSensor = useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 250,
-      tolerance: 5,
-    },
-  });
-  const sensors = useSensors(
-    mouseSensor,
-    touchSensor,
-  )
-  const handleDragStart = (event) => {
-    const { active } = event
-    setActiveId(active.id)
-    setActiveTodo(active.data.current.todo);
-  }
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-    if (over && over.data.current.accepts.includes(active.data.current.type) && over.id != active.data.current.todo.status) {
-      handleDroppedStatusChange(active.data.current.todo, over.id)
-      setActiveId(null)
-      setActiveTodo(null)
-    }
-  }
-
-  if (isError) {
-    return <Error />;
-  }
-
   const todoRowDefaultProps = {
     handleEditTodo,
     handleDelete
@@ -229,6 +175,68 @@ const MyToDos = () => {
       ...todoRowDefaultProps
     }
   ]
+
+  //  DNDContext START *********************
+  const [activeId, setActiveId] = useState(null);
+  const [activeTodo, setActiveTodo] = useState(null)
+
+  const handleDragStart = (event) => {
+    const { active } = event
+    setActiveId(active.id)
+    setActiveTodo(active.data.current.todo);
+  }
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (over && over.data.current.accepts.includes(active.data.current.type) && over.id != active.data.current.todo.status) {
+      handleDroppedStatusChange(active.data.current.todo, over.id)
+      setActiveId(null)
+      setActiveTodo(null)
+    }
+  }
+
+  const handleDroppedStatusChange = async (todo, status) => {
+    setIsLoading(true)
+    setIsError(false)
+    try {
+      const body = {
+        id: todo.id,
+        status
+      };
+      await fetch("/api/todos", {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+      })
+      await getToDos()
+      setIsLoading(false)
+    } catch (err) {
+      console.log("[EDIT TODO ERROR]: ", err);
+      setIsError(true)
+      setIsLoading(false)
+    }
+  }
+
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 10,
+    }
+  })
+
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 250,
+      tolerance: 5,
+    },
+  });
+  const sensors = useSensors(
+    mouseSensor,
+    touchSensor,
+  )
+  //  DNDContext END *********************
+
+  if (isError) {
+    return <Error />;
+  }
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
@@ -257,7 +265,7 @@ const MyToDos = () => {
         ))}
         <DragOverlay dropAnimation={null}>
           {activeId ? (
-            <ListItemOverlay todo={activeTodo} />
+            <TodoListItemOverlay todo={activeTodo} />
           ) : null}
         </DragOverlay>
         <Modal isOpen={isAddTodoModalOpen}>
@@ -318,7 +326,6 @@ const MyToDos = () => {
             </button>
           </div>
         </Modal>
-
       </div>
     </DndContext >
   );

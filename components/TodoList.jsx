@@ -1,21 +1,7 @@
 import PropTypes from "prop-types";
 import { TodoListItem } from "./TodoListItem";
 import { useDroppable } from "@dnd-kit/core";
-import { useLayoutEffect, useState } from "react";
-
-function useWindowSize() {
-  const [size, setSize] = useState([0, 0]);
-  useLayoutEffect(() => {
-    function updateSize() {
-      setSize([window.innerWidth, window.innerHeight]);
-    }
-    window.addEventListener('resize', updateSize);
-    updateSize();
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-  return size;
-}
-
+import { useWindowSize } from "../hooks/useWindowSize";
 
 export const TodoListMobile = ({ todos, status, handleEditTodo, handleDelete }) => {
   const { isOver, setNodeRef } = useDroppable({
@@ -41,7 +27,6 @@ export const TodoListMobile = ({ todos, status, handleEditTodo, handleDelete }) 
         }
       </div>
     </div >
-
   );
 };
 
@@ -69,7 +54,6 @@ export const TodoListDesktop = ({ todos, status, handleEditTodo, handleDelete })
         }
       </div>
     </div >
-
   );
 };
 
