@@ -29,7 +29,7 @@ From this veiw users can add new tasks, edit as well as delete their exsisting t
 
 ## Future Goals 
 
-I hope to continue scaling Bug Juice to include views for multiple task lists based on different projects that the user can have. I would love to enable push notifications and alerts for tasks that have an upcoming due date. Expertimenting with GitHub intergration that would enable users to leverage Bug Juice as a project board is something that I'm also highly interested in tackling. I very much enjoyed tackling this project, and would love to see where scaling this application takes me. 
+I hope to continue scaling Bug Juice to include views for multiple task lists based on different projects that the user can have. I would love to enable push notifications and alerts for tasks that have an upcoming due date. Experimenting with GitHub integration, enabling users to leverage Bug Juice as a project board is something that I'm also highly interested in tackling. I very much enjoyed tackling this project, and would love to see where scaling this application takes me. 
  
 
 ## Tech Stack 
