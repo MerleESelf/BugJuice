@@ -2,14 +2,17 @@
 
 # Bug Juice 
 
-Bug Juice is a task managment application created by me, Merle Self: FullStack Developer, that seeks to aid in workflow productivity for other developers, like myself. In choosing this project, I wanted to continue to grow my understanding of development within the framework of Next.js. I also wanted exspose myself to newer technoligies and libraries used for modern web development such as Formik and Yup for form creation, and validation, respectively; Utilizing Supabase for my hosted database, and leveraging SupabaseAuth to set up third party user authentication via GitHub; I also sought to create a simplistic yet appleaing UI/UX utilizing Daisy UI components; Tailwindcss class based styling was also leveraged to create a responsive design, enabling the user to use the app both on desktop, and in their browser on moble. Please [click here](https://bug-juice.vercel.app) to visit the deployed application. 
+Bug Juice is a task managment application created by me, Merle Self: FullStack Developer, that seeks to aid in workflow productivity for other developers, like myself. In choosing this project, I wanted to continue to grow my understanding of development within the framework of Next.js. I also wanted expose myself to newer technologies and libraries used for modern web development such as Formik and Yup for form creation, and validation, respectively; Utilizing Supabase for my hosted PostgreSQL database, and leveraging SupabaseAuth to set up third party user authentication via GitHub; I also sought to create a simplistic yet appealing UI/UX utilizing Daisy UI components; Tailwindcss class based styling was also leveraged to create a responsive design, enabling the user to use the app both on desktop, and in their browser on mobile. Please [click here](https://bug-juice.vercel.app) to visit the deployed application. 
 
 ## Getting Started 
 
 1. [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) to your local machine.
 2. Use your terminal to navigate into the new BugJuice folder, and open the code base in your text editor. 
 3. Install project dependencies by running <code>npm i</code>.
-4. Start the development server by running <code>npm run dev</code>, and navigate to https://localhost:3000 to interact with the front end. 
+4. Create .gitignore and .env.local files, add .env.local to .gitignore. 
+5. Set up your [Supabase devlopmnent db for Next.js](https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs), and list connection strings    in your .env.local file. 
+6. Set up [GitHub OAuth](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app) and add GitHub id and secret to .env.local    file.
+7. Start the development server by running <code>npm run dev</code>, and navigate to https://localhost:3000 to interact with the front end. 
 
 ## Using Bug Juice 
 
